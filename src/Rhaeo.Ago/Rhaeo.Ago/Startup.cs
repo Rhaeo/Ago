@@ -1,0 +1,14 @@
+﻿using Microsoft.Owin;
+using Owin;
+
+[assembly: OwinStartupAttribute(typeof(Rhaeo.Ago.Startup))]
+namespace Rhaeo.Ago
+{
+    public partial class Startup
+    {
+        public void Configuration(IAppBuilder app)
+        {
+            ConfigureAuth(app);
+        }
+    }
+}
