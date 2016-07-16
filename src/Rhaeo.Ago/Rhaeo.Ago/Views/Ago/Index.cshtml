@@ -9,8 +9,87 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
     <script src="~/SignalR/Hubs"></script>
-    <script type="text/javascript">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/pbkdf2.js"></script>
+    <script>
+        var iterations = 100;
+
+        var decryptCache= {};
+
+        var encrypt = (cleartext, passphrase) => {
+            const salt = CryptoJS.lib.WordArray.random(128 / 8);
+            const key = CryptoJS.PBKDF2(passphrase, salt, { keySize: 512 / 32, iterations });
+            const iv = CryptoJS.lib.WordArray.random(128 / 8);
+            const crypto = CryptoJS.AES.encrypt(cleartext,
+                key,
+                { iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+            return { cyphertext: crypto.toString(), salt: salt.toString(), iv: iv.toString() };
+        };
+
+        var decrypt = (cyphertext, passphrase, salt, iv) => {
+            if (decryptCache[cyphertext + passphrase + salt + iv] !== undefined) {
+                return decryptCache[cyphertext + passphrase + salt + iv];
+            }
+
+            const key = CryptoJS.PBKDF2(passphrase, CryptoJS.enc.Hex.parse(salt), { keySize: 512 / 32, iterations });
+            const crypto = CryptoJS.AES.decrypt(cyphertext,
+                key,
+                { iv: CryptoJS.enc.Hex.parse(iv), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+            decryptCache[cyphertext + passphrase + salt + iv] = crypto.toString(CryptoJS.enc.Utf8);
+            return crypto.toString(CryptoJS.enc.Utf8);
+        };
+    </script>
+    <script>
+        var passphrase = prompt("Passphrase:");
+
         $(function () {
+            $.connection.agoHub.client.trace = (message) => {
+                console.debug(message);
+            };
+
+            $.connection.agoHub.client.sync = (state) => {
+                var list = document.getElementById("list");
+                while (list.lastChild)
+                {
+                    list.removeChild(list.lastChild);
+                }
+
+                var item;
+                window.state = state.slice(0);
+                while ((item = state.pop()))
+                {
+                    var child = document.createElement("div");
+                    child.style.display = "flex";
+
+                    var markButton = document.createElement("button");
+                    markButton.textContent = "✔";
+                    markButton.addEventListener("click", ((captureId) => (event) => markTask(event, captureId))(item.Item.Id));
+                    child.appendChild(markButton);
+
+                    var textSpan = document.createElement("span");
+                    textSpan.style.flex = "1";
+                    textSpan.appendChild(document.createTextNode(decrypt(item.Item.Cyphertext, passphrase, item.Item.Salt, item.Item.IV)));
+                    child.appendChild(textSpan);
+
+                    var removeButton = document.createElement("button");
+                    removeButton.textContent = "✘";
+                    removeButton.addEventListener("click", ((captureId) => (event) => removeTask(event, captureId))(item.Item.Id));
+                    child.appendChild(removeButton);
+
+                    var buttonUp = document.createElement("button");
+                    buttonUp.textContent = "▼";
+                    buttonUp.addEventListener("click", ((captureId, capturePrevId) => (event) => moveTaskUp(event, captureId, capturePrevId))(item.Item.Id, item.PrevId));
+                    child.appendChild(buttonUp);
+
+                    var buttonDown = document.createElement("button");
+                    buttonDown.textContent = "▲";
+                    buttonDown.addEventListener("click", ((captureId, captureNextId) => (event) => moveTaskDown(event, captureId, captureNextId))(item.Item.Id, item.NextId));
+                    child.appendChild(buttonDown);
+
+                    list.appendChild(child);
+                }
+            };
+
             $.connection.agoHub.client.pong = (payload) => {
                 console.debug("PONG invoked on server", payload);
             };
@@ -25,11 +104,56 @@
                 // Download all tasks:
             });
         });
+
+        function createNewTask(event) {
+            if (event.keyCode === 13)
+            {
+                $.connection.agoHub.server.createNewTask(encrypt(event.currentTarget.value, passphrase));
+                event.currentTarget.value = null;
+            }
+        }
+
+        function markTask(event, id) {
+            $.connection.agoHub.server.markTask(id);
+        }
+
+        function removeTask(event, id) {
+            $.connection.agoHub.server.removeTask(id);
+        }
+
+        function moveTaskUp(event, id, prevId) {
+            $.connection.agoHub.server.swapTasks(id, prevId);
+        }
+
+        function moveTaskDown(event, id, nextId) {
+            $.connection.agoHub.server.swapTasks(id, nextId);
+        }
+
+        function exportMarkdown() {
+            download("export.md", JSON.stringify(window.state));
+        }
+
+        // http://stackoverflow.com/a/18197341/2715716
+        function download(filename, text) {
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', filename);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
     </script>
 </head>
-<body>
-    <div>
-        TEST
-    </div>
+<body style="display: flex; flex-direction: column;">
+    <h1>Tasks</h1>
+    <button onclick="exportMarkdown()">Export</button>
+    <h2>New</h2>
+    <input onkeypress="createNewTask(event)" />
+    <h2>All</h2>
+    <div id="list"></div>
 </body>
 </html>
