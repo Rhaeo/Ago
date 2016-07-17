@@ -2,6 +2,7 @@
 
 namespace Rhaeo.Ago.Models
 {
+    [Serializable]
     public sealed class Item
     {
         // Constructors:

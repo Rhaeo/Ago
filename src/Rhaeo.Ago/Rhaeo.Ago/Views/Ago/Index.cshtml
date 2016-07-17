@@ -40,6 +40,7 @@
         };
     </script>
     <script>
+        window.onerror = error => alert(error);
         var passphrase = prompt("Passphrase:");
 
         $(function () {
@@ -150,7 +151,14 @@
 </head>
 <body style="display: flex; flex-direction: column;">
     <h1>Tasks</h1>
-    <button onclick="exportMarkdown()">Export</button>
+    <div>
+        <button onclick="exportMarkdown()">Export decrypted</button>
+        <a href="/Ago/Export">Export encrypted</a>
+        <form action="/Ago/Import" method="post" enctype="multipart/form-data">
+            <input name="file" type="file"/>
+            <input type="submit" value="Import encrypted"/>
+        </form>
+    </div>
     <h2>New</h2>
     <input onkeypress="createNewTask(event)" />
     <h2>All</h2>

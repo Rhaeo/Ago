@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 using Rhaeo.Ago.Models;
+using Rhaeo.Ago.Repositories;
 
 namespace Rhaeo.Ago.Hubs
 {
@@ -17,12 +17,29 @@ namespace Rhaeo.Ago.Hubs
         private static readonly ConcurrentDictionary<string, string> ConnectionIdToUserName =
             new ConcurrentDictionary<string, string>();
 
-        private static readonly List<Guid> ItemsInOrder = new List<Guid>();
+        private readonly IRepository Repository = new BinarySerializedRepository();
 
-        private static readonly ConcurrentDictionary<Guid, Item> ItemsById =
-            new ConcurrentDictionary<Guid, Item>();
+        // Constructors:
+
+        public AgoHub()
+        {
+            Repository.Reloaded += Repository_Reloaded;
+        }
+
+        private void Repository_Reloaded(object sender, EventArgs e)
+        {
+            Trace.WriteLine("Reloaded");
+            Sync();
+        }
 
         // Methods:
+
+        protected override void Dispose(bool disposing)
+        {
+            Repository.Reloaded -= Repository_Reloaded;
+            Repository.Dispose();
+            base.Dispose(disposing);
+        }
 
         public override Task OnConnected()
         {
@@ -69,26 +86,26 @@ namespace Rhaeo.Ago.Hubs
 
         private void Sync()
         {
-            if (!ItemsInOrder.Any())
+            var itemsInOrder = Repository.GetItemIdsInOrder();
+            if (!itemsInOrder.Any())
             {
                 Clients.Caller.sync(new object[] { });
                 return;
             }
 
-            lock (ItemsInOrder)
+            lock (Repository)
             {
-                Clients.Caller.sync(ItemsInOrder.Select((id, index) => new
+                Clients.Caller.sync(itemsInOrder.Select((id, index) => new
                 {
-                    PrevId = ItemsInOrder[index == 0 ? ItemsInOrder.Count - 1 : index - 1],
-                    NextId = ItemsInOrder[index == ItemsInOrder.Count - 1 ? 0 : index + 1],
-                    Item = ItemsById[id]
+                    PrevId = itemsInOrder[index == 0 ? itemsInOrder.Length - 1 : index - 1],
+                    NextId = itemsInOrder[index == itemsInOrder.Length - 1 ? 0 : index + 1],
+                    Item = Repository.GetItemById(id)
                 }));
             }
         }
 
         // Actions:
 
-        // [Authorize]
         public double Ping(double payload)
         {
             Clients.Caller.pong(payload);
@@ -98,34 +115,27 @@ namespace Rhaeo.Ago.Hubs
         public void CreateNewTask(ItemNewModel item)
         {
             var id = Guid.NewGuid();
-            ItemsInOrder.Insert(0, id);
-            ItemsById.TryAdd(id, new Item(id) { Cyphertext = item.Cyphertext, Salt = item.Salt, IV = item.IV });
+            Repository.AddItem(id, item.Cyphertext, item.Salt, item.IV);
             Sync();
         }
 
         public void MarkTask(Guid id)
         {
-            ItemsById[id].IsMarked = true;
+            Repository.MarkItem(id);
             Sync();
         }
 
         public void RemoveTask(Guid id)
         {
-            Item item;
-            ItemsInOrder.Remove(id);
-            ItemsById.TryRemove(id, out item);
+            Repository.RemoveItem(id);
             Sync();
         }
 
         public void SwapTasks(Guid id1, Guid id2)
         {
-            lock (ItemsInOrder)
+            lock (Repository)
             {
-                var oldIndex = ItemsInOrder.IndexOf(id1);
-                var newIndex = ItemsInOrder.IndexOf(id2);
-                var temp = ItemsInOrder[oldIndex];
-                ItemsInOrder[oldIndex] = ItemsInOrder[newIndex];
-                ItemsInOrder[newIndex] = temp;
+                Repository.SwapItemsByIds(id1, id2);
             }
 
             Sync();
