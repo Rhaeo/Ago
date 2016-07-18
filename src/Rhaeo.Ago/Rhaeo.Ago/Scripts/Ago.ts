@@ -25,7 +25,10 @@ const render = () => {
 
 store.subscribe(render);
 
-window.onerror = (message, filename, lineno, colno, error) => pushErrorNotification(message, filename, lineno, colno, error);
+window.onerror = (message, filename, lineno, colno, error) => {
+    alert(message + "\n" + error);
+    pushErrorNotification(message, filename, lineno, colno, error);
+}
 
 setPassphrase(prompt("Passphrase:"));
 
