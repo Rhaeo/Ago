@@ -20,25 +20,27 @@ export const Ago = (props: IAgoProps) => (
     <div>
         <Menu />
         <Composer text={props.draftText} />
-        <div style={{ maxWidth: 800 }}>
-            <h2>Items</h2>
-            {props.items && props.items.map(i => (
-                <div style={{ display: "flex" }}>
-                    <button onClick={event => markItemById(i.Item.Id) }>✔</button>
-                    <input checked={i.Item.IsMarked} type="checkbox" />
-                    <span style={{ flex: 1 }}>{decrypt(i.Item.Cyphertext, props.passphrase, i.Item.Salt, i.Item.IV) }</span>
-                    <button onClick={event => removeItemById(i.Item.Id)}>✘</button>
-                    <button onClick={event => swapItemsByIds(i.Item.Id, i.NextId)}>▼</button>
-                    <button onClick={event => swapItemsByIds(i.Item.Id, i.PrevId)}>▲</button>
-                </div>)) }
-        </div>
-        <div>
-            <h2>Notifications ({props.notifications && props.notifications.length})</h2>
-            <ul>
-                {props.notifications && props.notifications.map(n => (
-                    <li key={n.message}>
-                        {n.message}
-                    </li>)) }
-            </ul>
+        <div style={{ maxWidth: 800, margin: "0 auto" }}>
+            <div>
+                <h2>Items</h2>
+                {props.items && props.items.map((i, index) => (
+                    <div style={{ background: index % 2 === 0 ? "none" : "silver", display: "flex" }}>
+                        <button onClick={event => markItemById(i.Item.Id) }>✔</button>
+                        <input checked={i.Item.IsMarked} type="checkbox" />
+                        <span style={{ flex: 1 }}>{decrypt(i.Item.Cyphertext, props.passphrase, i.Item.Salt, i.Item.IV) }</span>
+                        <button onClick={event => removeItemById(i.Item.Id) }>✘</button>
+                        <button onClick={event => swapItemsByIds(i.Item.Id, i.NextId) }>▼</button>
+                        <button onClick={event => swapItemsByIds(i.Item.Id, i.PrevId) }>▲</button>
+                    </div>)) }
+            </div>
+            <div>
+                <h2>Notifications ({props.notifications && props.notifications.length}) </h2>
+                <ul>
+                    {props.notifications && props.notifications.map(n => (
+                        <li key={n.message}>
+                            {n.message}
+                        </li>)) }
+                </ul>
+            </div>
         </div>
     </div>);

@@ -19,11 +19,11 @@ const handleKeyPress = (event: React.KeyboardEvent) => {
 
 // ReSharper disable once InconsistentNaming
 export const Composer = (props: IComposerProps) => (
-    <div>
+    <div style={{ display: "flex" }}>
         <input
             onChange={event => handleChange(event) }
             onKeyPress={event => handleKeyPress(event) }
             placeholder="Compose the item…"
-            style={{ width: "100%", padding: 10 }}
+            style={{ flex: 1, padding: 10 }}
             value={props.text} />
     </div>);
