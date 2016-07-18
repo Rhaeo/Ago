@@ -168,11 +168,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\IdentityConfig.cs" />
-    <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="IdentityConfig.cs" />
+    <Compile Include="Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AgoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -199,29 +196,33 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Styles\bootstrap.css" />
+    <Content Include="Styles\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Styles\Site.css" />
+    <Content Include="Scripts\Libraries\bootstrap.js" />
+    <Content Include="Scripts\Libraries\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\RhaeoAgo - Web Deploy.pubxml" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.0.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\_references.js" />
+    <None Include="Scripts\Libraries\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Libraries\jquery-1.10.2.js" />
+    <Content Include="Scripts\Libraries\jquery-1.10.2.min.js" />
+    <None Include="Scripts\Libraries\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\Libraries\jquery.signalR-2.2.0.js" />
+    <Content Include="Scripts\Libraries\jquery.signalR-2.2.0.min.js" />
+    <Content Include="Scripts\Libraries\jquery.validate.js" />
+    <Content Include="Scripts\Libraries\jquery.validate.min.js" />
+    <Content Include="Scripts\Libraries\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\Libraries\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Libraries\react%4015.0.1.min.js" />
+    <Content Include="Scripts\Libraries\react-dom%4015.0.1.min.js" />
+    <Content Include="Scripts\Libraries\redux%403.5.2.min.js" />
+    <Content Include="Scripts\Libraries\require%402.2.0.min.js" />
+    <Content Include="Scripts\Libraries\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Libraries\respond.js" />
+    <Content Include="Scripts\Libraries\respond.min.js" />
+    <Content Include="Scripts\Libraries\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -260,6 +261,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Ago\Index.cshtml" />
     <Content Include="Typings\react\README.md" />
+    <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -272,7 +274,7 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Scripts\Libraries\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201607161310500_ScaffoldFromInitialModel.resx">
@@ -280,6 +282,22 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Scripts\Actions\ActionCreators.ts" />
+    <TypeScriptCompile Include="Scripts\Actions\ActionTypes.ts" />
+    <TypeScriptCompile Include="Scripts\Actions\Actions.ts" />
+    <TypeScriptCompile Include="Scripts\Ago.ts" />
+    <TypeScriptCompile Include="Scripts\Components\Ago.tsx" />
+    <TypeScriptCompile Include="Scripts\Components\Composer.tsx" />
+    <TypeScriptCompile Include="Scripts\Components\Menu.tsx" />
+    <TypeScriptCompile Include="Scripts\Helpers\Encryption.ts" />
+    <TypeScriptCompile Include="Scripts\Messages\SignalR.ts" />
+    <TypeScriptCompile Include="Scripts\Models\IItem.ts" />
+    <TypeScriptCompile Include="Scripts\Models\ILink.ts" />
+    <TypeScriptCompile Include="Scripts\Models\INotification.ts" />
+    <TypeScriptCompile Include="Scripts\Polyfills\Array.ts" />
+    <TypeScriptCompile Include="Scripts\Polyfills\Object.ts" />
+    <TypeScriptCompile Include="Scripts\Reducers\AgoReducer.ts" />
+    <TypeScriptCompile Include="Typings\promise\promise.d.ts" />
     <TypeScriptCompile Include="Typings\react\react-0.13.3.d.ts" />
     <TypeScriptCompile Include="Typings\react\react-addons-create-fragment.d.ts" />
     <TypeScriptCompile Include="Typings\react\react-addons-css-transition-group.d.ts" />

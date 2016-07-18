@@ -6,15 +6,15 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Ago</title>
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
-    <script src="~/SignalR/Hubs"></script>
+    <script src="/Scripts/Libraries/jquery-1.10.2.min.js"></script>
+    <script src="/Scripts/Libraries/jquery.signalR-2.2.0.min.js"></script>
+    <script src="/SignalR/Hubs"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/pbkdf2.js"></script>
     <script>
         var iterations = 100;
 
-        var decryptCache= {};
+        var decryptCache = {};
 
         var encrypt = (cleartext, passphrase) => {
             const salt = CryptoJS.lib.WordArray.random(128 / 8);
@@ -39,129 +39,18 @@
             return crypto.toString(CryptoJS.enc.Utf8);
         };
     </script>
+    <script data-main="/Scripts/Ago.js" src="~/Scripts/Libraries/require@2.2.0.min.js"></script>
     <script>
-        window.onerror = error => alert(error);
-        var passphrase = prompt("Passphrase:");
-
-        $(function () {
-            $.connection.agoHub.client.trace = (message) => {
-                console.debug(message);
-            };
-
-            $.connection.agoHub.client.sync = (state) => {
-                var list = document.getElementById("list");
-                while (list.lastChild)
-                {
-                    list.removeChild(list.lastChild);
-                }
-
-                var item;
-                window.state = state.slice(0);
-                while ((item = state.pop()))
-                {
-                    var child = document.createElement("div");
-                    child.style.display = "flex";
-
-                    var markButton = document.createElement("button");
-                    markButton.textContent = "✔";
-                    markButton.addEventListener("click", ((captureId) => (event) => markTask(event, captureId))(item.Item.Id));
-                    child.appendChild(markButton);
-
-                    var textSpan = document.createElement("span");
-                    textSpan.style.flex = "1";
-                    textSpan.appendChild(document.createTextNode(decrypt(item.Item.Cyphertext, passphrase, item.Item.Salt, item.Item.IV)));
-                    child.appendChild(textSpan);
-
-                    var removeButton = document.createElement("button");
-                    removeButton.textContent = "✘";
-                    removeButton.addEventListener("click", ((captureId) => (event) => removeTask(event, captureId))(item.Item.Id));
-                    child.appendChild(removeButton);
-
-                    var buttonUp = document.createElement("button");
-                    buttonUp.textContent = "▼";
-                    buttonUp.addEventListener("click", ((captureId, capturePrevId) => (event) => moveTaskUp(event, captureId, capturePrevId))(item.Item.Id, item.PrevId));
-                    child.appendChild(buttonUp);
-
-                    var buttonDown = document.createElement("button");
-                    buttonDown.textContent = "▲";
-                    buttonDown.addEventListener("click", ((captureId, captureNextId) => (event) => moveTaskDown(event, captureId, captureNextId))(item.Item.Id, item.NextId));
-                    child.appendChild(buttonDown);
-
-                    list.appendChild(child);
-                }
-            };
-
-            $.connection.agoHub.client.pong = (payload) => {
-                console.debug("PONG invoked on server", payload);
-            };
-
-            $.connection.hub.start().done(() => {
-                console.debug("SignalR OK.");
-                $.connection.agoHub.server.ping(Math.random())
-                    .done(payload => console.debug("PING succeeded", payload))
-                    .fail(error => console.error("PING failed", error));
-                console.debug("PING invoked on client");
-
-                // Download all tasks:
-            });
-        });
-
-        function createNewTask(event) {
-            if (event.keyCode === 13)
-            {
-                $.connection.agoHub.server.createNewTask(encrypt(event.currentTarget.value, passphrase));
-                event.currentTarget.value = null;
+        require.config({
+            paths: {
+                "react": "/Scripts/Libraries/react@15.0.1.min",
+                "react-dom": "/Scripts/Libraries/react-dom@15.0.1.min",
+                "redux": "/Scripts/Libraries/redux@3.5.2.min"
             }
-        }
-
-        function markTask(event, id) {
-            $.connection.agoHub.server.markTask(id);
-        }
-
-        function removeTask(event, id) {
-            $.connection.agoHub.server.removeTask(id);
-        }
-
-        function moveTaskUp(event, id, prevId) {
-            $.connection.agoHub.server.swapTasks(id, prevId);
-        }
-
-        function moveTaskDown(event, id, nextId) {
-            $.connection.agoHub.server.swapTasks(id, nextId);
-        }
-
-        function exportMarkdown() {
-            download("export.md", JSON.stringify(window.state));
-        }
-
-        // http://stackoverflow.com/a/18197341/2715716
-        function download(filename, text) {
-            var element = document.createElement('a');
-            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-            element.setAttribute('download', filename);
-
-            element.style.display = 'none';
-            document.body.appendChild(element);
-
-            element.click();
-
-            document.body.removeChild(element);
-        }
+        });
     </script>
 </head>
-<body style="display: flex; flex-direction: column;">
-    <h1>Tasks</h1>
-    <div>
-        <button onclick="exportMarkdown()">Export decrypted</button>
-        <a href="/Ago/Export">Export encrypted</a>
-        <form action="/Ago/Import" method="post" enctype="multipart/form-data">
-            <input name="file" type="file"/>
-            <input type="submit" value="Import encrypted"/>
-        </form>
-    </div>
-    <h2>New</h2>
-    <input onkeypress="createNewTask(event)" />
-    <h2>All</h2>
-    <div id="list"></div>
+<body style="display: flex; flex-direction: column; margin: 0;">
+    <div id="Ago"></div>
 </body>
 </html>
