@@ -310,11 +310,8 @@
     <TypeScriptCompile Include="Typings\react\react-addons-update.d.ts" />
     <TypeScriptCompile Include="Typings\react\react-dom.d.ts" />
     <TypeScriptCompile Include="Typings\react\react-global-0.13.3.d.ts" />
-    <TypeScriptCompile Include="Typings\react\react-global-tests.ts" />
     <TypeScriptCompile Include="Typings\react\react-global.d.ts" />
-    <TypeScriptCompile Include="Typings\react\react-tests.ts" />
     <TypeScriptCompile Include="Typings\react\react.d.ts" />
-    <TypeScriptCompile Include="Typings\redux\redux-tests.ts" />
     <TypeScriptCompile Include="Typings\redux\redux.d.ts" />
   </ItemGroup>
   <ItemGroup>
