@@ -95,7 +95,7 @@ namespace Rhaeo.Ago.Hubs
 
             lock (Repository)
             {
-                Clients.Caller.sync(itemsInOrder.Select((id, index) => new
+                Clients.Caller.sync(itemsInOrder.Select((id, index) => new Link()
                 {
                     PrevId = itemsInOrder[index == 0 ? itemsInOrder.Length - 1 : index - 1],
                     NextId = itemsInOrder[index == itemsInOrder.Length - 1 ? 0 : index + 1],

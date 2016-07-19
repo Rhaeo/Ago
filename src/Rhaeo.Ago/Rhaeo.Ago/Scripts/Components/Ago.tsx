@@ -22,15 +22,15 @@ export const Ago = (props: IAgoProps) => (
         <Composer text={props.draftText} />
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
             <div>
-                <h2>Items</h2>
+                <h2>Items {console.debug("yoyoyo", props.items)}</h2>
                 {props.items && props.items.map((i, index) => (
                     <div style={{ background: index % 2 === 0 ? "none" : "silver", display: "flex" }}>
-                        <button onClick={event => markItemById(i.Item.Id) }>✔</button>
-                        <input checked={i.Item.IsMarked} type="checkbox" />
-                        <span style={{ flex: 1 }}>{decrypt(i.Item.Cyphertext, props.passphrase, i.Item.Salt, i.Item.IV) }</span>
-                        <button onClick={event => removeItemById(i.Item.Id) }>✘</button>
-                        <button onClick={event => swapItemsByIds(i.Item.Id, i.NextId) }>▼</button>
-                        <button onClick={event => swapItemsByIds(i.Item.Id, i.PrevId) }>▲</button>
+                        <button onClick={event => markItemById(i.item.id) }>✔</button>
+                        <input checked={i.item.isMarked} type="checkbox" />
+                        <span style={{ flex: 1 }}>{decrypt(i.item.cyphertext, props.passphrase, i.item.salt, i.item.iV) }</span>
+                        <button onClick={event => removeItemById(i.item.id) }>✘</button>
+                        <button onClick={event => swapItemsByIds(i.item.id, i.nextId) }>▼</button>
+                        <button onClick={event => swapItemsByIds(i.item.id, i.prevId) }>▲</button>
                     </div>)) }
             </div>
             <div>

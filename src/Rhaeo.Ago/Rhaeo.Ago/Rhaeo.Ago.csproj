@@ -169,6 +169,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IdentityConfig.cs" />
+    <Compile Include="Models\Link.cs" />
+    <Compile Include="SignalRContractResolver.cs" />
     <Compile Include="Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AgoController.cs" />

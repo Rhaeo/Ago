@@ -1,7 +1,7 @@
 ﻿export interface IItem {
-    Id: string;
-    Cyphertext: string;
-    Salt: string;
-    IV: string;
-    IsMarked: boolean;
+    id: string;
+    cyphertext: string;
+    salt: string;
+    iV: string;
+    isMarked: boolean;
 }
