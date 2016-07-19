@@ -2,7 +2,7 @@ define(["require", "exports", "./../Ago"], function (require, exports, Ago_1) {
     "use strict";
     exports.changeComposerText = function (text) {
         var action = {
-            type: 4 /* ChangeComposerText */,
+            type: 5 /* ChangeComposerText */,
             payload: {
                 text: text
             }
@@ -11,7 +11,7 @@ define(["require", "exports", "./../Ago"], function (require, exports, Ago_1) {
     };
     exports.createNewTask = function (text) {
         var action = {
-            type: 0 /* CreateNewTask */,
+            type: 1 /* CreateNewTask */,
             payload: {
                 text: text
             }
@@ -20,7 +20,7 @@ define(["require", "exports", "./../Ago"], function (require, exports, Ago_1) {
     };
     exports.pushErrorNotification = function (message, filename, lineno, colno, error) {
         var action = {
-            type: 1 /* PushErrorNotification */,
+            type: 2 /* PushErrorNotification */,
             payload: {
                 message: message,
                 filename: filename,
@@ -42,7 +42,7 @@ define(["require", "exports", "./../Ago"], function (require, exports, Ago_1) {
     };
     exports.pushDebugNotification = function (message) {
         var action = {
-            type: 9 /* PushDebugNotification */,
+            type: 4 /* PushDebugNotification */,
             payload: {
                 message: message
             }
@@ -51,7 +51,7 @@ define(["require", "exports", "./../Ago"], function (require, exports, Ago_1) {
     };
     exports.setPassphrase = function (passphrase) {
         var action = {
-            type: 2 /* SetPassphrase */,
+            type: 0 /* SetPassphrase */,
             payload: {
                 passphrase: passphrase
             }
@@ -60,7 +60,7 @@ define(["require", "exports", "./../Ago"], function (require, exports, Ago_1) {
     };
     exports.replaceItems = function (items) {
         var action = {
-            type: 5 /* ReplaceItems */,
+            type: 6 /* ReplaceItems */,
             payload: {
                 items: items
             }
@@ -69,7 +69,7 @@ define(["require", "exports", "./../Ago"], function (require, exports, Ago_1) {
     };
     exports.markItemById = function (id) {
         var action = {
-            type: 8 /* MarkItemById */,
+            type: 9 /* MarkItemById */,
             payload: {
                 id: id
             }
@@ -78,7 +78,7 @@ define(["require", "exports", "./../Ago"], function (require, exports, Ago_1) {
     };
     exports.removeItemById = function (id) {
         var action = {
-            type: 7 /* RemoveItemById */,
+            type: 8 /* RemoveItemById */,
             payload: {
                 id: id
             }
@@ -87,11 +87,102 @@ define(["require", "exports", "./../Ago"], function (require, exports, Ago_1) {
     };
     exports.swapItemsByIds = function (id1, id2) {
         var action = {
-            type: 6 /* SwapItemsByIds */,
+            type: 7 /* SwapItemsByIds */,
             payload: {
                 id1: id1,
                 id2: id2
             }
+        };
+        Ago_1.store.dispatch(action);
+    };
+    exports.electPivotItem = function (id) {
+        var action = {
+            type: 10 /* ElectPivotItem */,
+            payload: {
+                id: id
+            }
+        };
+        Ago_1.store.dispatch(action);
+    };
+    exports.moveAbove = function (id, counterId) {
+        var action = {
+            type: 11 /* MoveAbove */,
+            payload: {
+                id: id,
+                counterId: counterId
+            }
+        };
+        Ago_1.store.dispatch(action);
+    };
+    exports.moveBelow = function (id, counterId) {
+        var action = {
+            type: 12 /* MoveBelow */,
+            payload: {
+                id: id,
+                counterId: counterId
+            }
+        };
+        Ago_1.store.dispatch(action);
+    };
+    exports.updateAboveDraft = function (id, draft) {
+        var action = {
+            type: 15 /* UpdateAboveDraft */,
+            payload: {
+                id: id,
+                draft: draft
+            }
+        };
+        Ago_1.store.dispatch(action);
+    };
+    exports.updateBelowDraft = function (id, draft) {
+        var action = {
+            type: 14 /* UpdateBelowDraft */,
+            payload: {
+                id: id,
+                draft: draft
+            }
+        };
+        Ago_1.store.dispatch(action);
+    };
+    exports.commitAboveDraft = function (id) {
+        var action = {
+            type: 17 /* CommitAboveDraft */,
+            payload: {
+                id: id
+            }
+        };
+        Ago_1.store.dispatch(action);
+    };
+    exports.commitBelowDraft = function (id) {
+        var action = {
+            type: 18 /* CommitBelowDraft */,
+            payload: {
+                id: id
+            }
+        };
+        Ago_1.store.dispatch(action);
+    };
+    exports.updateItemById = function (id) {
+        var action = {
+            type: 13 /* UpdateItemById */,
+            payload: {
+                id: id
+            }
+        };
+        Ago_1.store.dispatch(action);
+    };
+    exports.updateNewDraft = function (draft) {
+        var action = {
+            type: 16 /* UpdateNewDraft */,
+            payload: {
+                draft: draft
+            }
+        };
+        Ago_1.store.dispatch(action);
+    };
+    exports.commitNewDraft = function () {
+        var action = {
+            type: 19 /* CommitNewDraft */
         };
         Ago_1.store.dispatch(action);
     };

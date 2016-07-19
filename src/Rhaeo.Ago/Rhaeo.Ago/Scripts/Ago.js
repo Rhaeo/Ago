@@ -1,10 +1,13 @@
 define(["require", "exports", "react", "react-dom", "redux", "./Messages/SignalR", "./Components/Ago", "./Reducers/AgoReducer", "./Actions/ActionCreators"], function (require, exports, React, ReactDOM, Redux, SignalR_1, Ago_1, AgoReducer_1, ActionCreators_1) {
     "use strict";
     var initialState = {
-        draftText: "",
         passphrase: "",
         items: [],
-        notifications: []
+        notifications: [],
+        newDraft: "",
+        aboveDrafts: {},
+        belowDrafts: {},
+        selectedItemId: null,
     };
     exports.store = Redux.createStore(AgoReducer_1.agoReducer, initialState);
     var render = function () {

@@ -117,3 +117,114 @@ export const swapItemsByIds = (id1: string, id2: string) => {
 
     store.dispatch(action);
 };
+
+export const electPivotItem = (id: string) => {
+  const action: Actions.IElectPivotItemAction = {
+    type: ActionTypes.ElectPivotItem,
+    payload: {
+      id
+    }
+  };
+
+  store.dispatch(action);
+}
+
+export const moveAbove = (id: string, counterId: string) => {
+  const action: Actions.IMoveAboveAction = {
+    type: ActionTypes.MoveAbove,
+    payload: {
+      id,
+      counterId
+    }
+  };
+
+  store.dispatch(action);
+}
+
+export const moveBelow = (id: string, counterId: string) => {
+  const action: Actions.IMoveBelowAction = {
+    type: ActionTypes.MoveBelow,
+    payload: {
+      id,
+      counterId
+    }
+  };
+
+  store.dispatch(action);
+}
+
+export const updateAboveDraft = (id: string, draft: string) => {
+  const action: Actions.IUpdateAboveDraftAction = {
+    type: ActionTypes.UpdateAboveDraft,
+    payload: {
+      id,
+      draft
+    }
+  };
+
+  store.dispatch(action);
+}
+
+export const updateBelowDraft = (id: string, draft: string) => {
+  const action: Actions.IUpdateBelowDraftAction = {
+    type: ActionTypes.UpdateBelowDraft,
+    payload: {
+      id,
+      draft
+    }
+  };
+
+  store.dispatch(action);
+}
+
+export const commitAboveDraft = (id: string) => {
+  const action: Actions.ICommitAboveDraftAction = {
+    type: ActionTypes.CommitAboveDraft,
+    payload: {
+      id
+    }
+  };
+
+  store.dispatch(action);
+}
+
+export const commitBelowDraft = (id: string) => {
+  const action: Actions.ICommitBelowDraftAction = {
+    type: ActionTypes.CommitBelowDraft,
+    payload: {
+      id
+    }
+  };
+
+  store.dispatch(action);
+}
+
+export const updateItemById = (id: string) => {
+  const action: Actions.IUpdateItemByIdAction = {
+    type: ActionTypes.UpdateItemById,
+    payload: {
+      id
+    }
+  };
+
+  store.dispatch(action);
+}
+
+export const updateNewDraft = (draft: string) => {
+  const action: Actions.IUpdateNewDraftAction = {
+    type: ActionTypes.UpdateNewDraft,
+    payload: {
+      draft
+    }
+  };
+
+  store.dispatch(action);
+}
+
+export const commitNewDraft = () => {
+  const action: Actions.ICommitNewDraftAction = {
+    type: ActionTypes.CommitNewDraft
+  };
+
+  store.dispatch(action);
+}

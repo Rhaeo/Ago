@@ -11,10 +11,13 @@ import { agoReducer } from "./Reducers/AgoReducer";
 import { pushErrorNotification, pushTraceNotification, pushDebugNotification, setPassphrase, replaceItems } from "./Actions/ActionCreators";
 
 const initialState: IAgoProps = {
-    draftText: "",
     passphrase: "",
     items: [],
-    notifications: []
+    notifications: [],
+    newDraft: "",
+    aboveDrafts: { },
+    belowDrafts: {},
+    selectedItemId: null,
 };
 
 export const store = Redux.createStore(agoReducer, initialState);

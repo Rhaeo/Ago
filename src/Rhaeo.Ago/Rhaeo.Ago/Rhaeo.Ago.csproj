@@ -291,11 +291,15 @@
     <TypeScriptCompile Include="Scripts\Components\Ago.tsx" />
     <TypeScriptCompile Include="Scripts\Components\Composer.tsx" />
     <TypeScriptCompile Include="Scripts\Components\Menu.tsx" />
+    <TypeScriptCompile Include="Scripts\Components\Note.tsx" />
+    <TypeScriptCompile Include="Scripts\Components\NoteDraft.tsx" />
+    <TypeScriptCompile Include="Scripts\Components\NoteList.tsx" />
     <TypeScriptCompile Include="Scripts\Helpers\Encryption.ts" />
     <TypeScriptCompile Include="Scripts\Messages\SignalR.ts" />
     <TypeScriptCompile Include="Scripts\Models\IItem.ts" />
     <TypeScriptCompile Include="Scripts\Models\ILink.ts" />
     <TypeScriptCompile Include="Scripts\Models\INotification.ts" />
+    <TypeScriptCompile Include="Scripts\Models\IState.ts" />
     <TypeScriptCompile Include="Scripts\Polyfills\Array.ts" />
     <TypeScriptCompile Include="Scripts\Polyfills\Object.ts" />
     <TypeScriptCompile Include="Scripts\Reducers\AgoReducer.ts" />
