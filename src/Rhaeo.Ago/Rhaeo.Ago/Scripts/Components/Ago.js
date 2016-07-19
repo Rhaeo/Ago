@@ -1,6 +1,14 @@
-define(["require", "exports", "react", "./Menu", "./Composer", "./NoteList"], function (require, exports, React, Menu_1, Composer_1, NoteList_1) {
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+define(["require", "exports", "react", "./Pages/LoginPage", "./Pages/IndexPage"], function (require, exports, React, LoginPage_1, IndexPage_1) {
     "use strict";
     // ReSharper disable once InconsistentNaming
-    exports.Ago = function (props) { return (React.createElement("div", null, React.createElement(Menu_1.Menu, null), React.createElement(Composer_1.Composer, {text: props.newDraft}), React.createElement("div", {style: { maxWidth: 800, margin: "0 auto" }}, React.createElement("div", null, React.createElement("h2", null, "Items (", props.items && props.items.length, ") "), React.createElement(NoteList_1.NoteList, {aboveDrafts: props.aboveDrafts, belowDrafts: props.belowDrafts, newDraft: props.newDraft, items: props.items, selectedItemId: props.selectedItemId, passphrase: props.passphrase})), React.createElement("div", null, React.createElement("h2", null, "Notifications (", props.notifications && props.notifications.length, ") "), React.createElement("ul", null, props.notifications && props.notifications.map(function (n) { return (React.createElement("li", {key: n.message}, n.message)); })))))); };
+    exports.Ago = function (props) { return props.isLoggedIn ? React.createElement(IndexPage_1.IndexPage, __assign({}, props)) : React.createElement(LoginPage_1.LoginPage, null); };
 });
 //# sourceMappingURL=Ago.js.map

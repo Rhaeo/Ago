@@ -228,3 +228,11 @@ export const commitNewDraft = () => {
 
   store.dispatch(action);
 }
+
+export const login = () => {
+  const action: Actions.ILoginAction = {
+    type: ActionTypes.Login
+  };
+
+  store.dispatch(action);
+}

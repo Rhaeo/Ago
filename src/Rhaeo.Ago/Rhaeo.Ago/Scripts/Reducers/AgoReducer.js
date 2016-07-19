@@ -77,22 +77,34 @@ define(["require", "exports", "./../Messages/SignalR", "./../Helpers/Encryption"
             case 11 /* MoveAbove */:
                 {
                     var payload = action.payload;
+                    break;
                 }
             case 12 /* MoveBelow */:
                 {
                     var payload = action.payload;
+                    break;
                 }
             case 13 /* UpdateItemById */:
                 {
                     var payload = action.payload;
+                    break;
                 }
             case 14 /* UpdateBelowDraft */:
                 {
                     var payload = action.payload;
+                    break;
                 }
             case 15 /* UpdateAboveDraft */:
                 {
                     var payload = action.payload;
+                    break;
+                }
+            case 20 /* Login */:
+                {
+                    //const payload = (action as Actions.ILoginAction).payload;
+                    // TODO: When registering, generate a check word on client and encrypt it, save it with the user data, then verify here.
+                    state.isLoggedIn = true;
+                    break;
                 }
             default:
                 {

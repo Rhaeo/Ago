@@ -22,5 +22,6 @@
   UpdateNewDraft,
   CommitAboveDraft,
   CommitBelowDraft,
-  CommitNewDraft
+  CommitNewDraft,
+  Login
 }

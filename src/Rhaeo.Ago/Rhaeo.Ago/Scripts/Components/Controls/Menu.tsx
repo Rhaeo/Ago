@@ -1,4 +1,4 @@
-﻿/// <reference path="./../../Typings/react/react.d.ts"/>
+﻿/// <reference path="./../../../Typings/react/react.d.ts"/>
 import * as React from "react";
 
 export interface IMenuProps {

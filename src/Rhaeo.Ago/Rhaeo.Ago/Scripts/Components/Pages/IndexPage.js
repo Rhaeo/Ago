@@ -1,0 +1,6 @@
+define(["require", "exports", "react", "./../Controls/Menu", "./../Controls/Composer", "./../Controls/NoteList"], function (require, exports, React, Menu_1, Composer_1, NoteList_1) {
+    "use strict";
+    // ReSharper disable once InconsistentNaming
+    exports.IndexPage = function (props) { return (React.createElement("div", null, React.createElement(Menu_1.Menu, null), React.createElement(Composer_1.Composer, {text: props.newDraft}), React.createElement("div", {style: { maxWidth: 800, margin: "0 auto" }}, React.createElement("div", null, React.createElement("h2", null, "Items (", props.items && props.items.length, ") "), React.createElement(NoteList_1.NoteList, {aboveDrafts: props.aboveDrafts, belowDrafts: props.belowDrafts, newDraft: props.newDraft, items: props.items, selectedItemId: props.selectedItemId, passphrase: props.passphrase})), React.createElement("div", null, React.createElement("h2", null, "Notifications (", props.notifications && props.notifications.length, ") "), React.createElement("ul", null, props.notifications && props.notifications.map(function (n) { return (React.createElement("li", {key: n.message}, n.message)); })))))); };
+});
+//# sourceMappingURL=IndexPage.js.map

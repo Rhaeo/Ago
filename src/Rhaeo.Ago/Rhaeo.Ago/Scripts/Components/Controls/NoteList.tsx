@@ -1,11 +1,11 @@
-﻿/// <reference path="./../../Typings/react/react.d.ts"/>
+﻿/// <reference path="./../../../Typings/react/react.d.ts"/>
 import * as React from "react";
 
-import { ILink } from "./../Models/ILink";
+import { ILink } from "./../../Models/ILink";
 import { Note } from "./Note";
 import { NoteDraft } from "./NoteDraft";
-import { electPivotItem } from "./../Actions/ActionCreators";
-import { decrypt } from "./../Helpers/Encryption";
+import { electPivotItem } from "./../../Actions/ActionCreators";
+import { decrypt } from "./../../Helpers/Encryption";
 
 export interface INoteProps {
   items: ILink[];

@@ -18,6 +18,7 @@ const initialState: IAgoProps = {
     aboveDrafts: { },
     belowDrafts: {},
     selectedItemId: null,
+    isLoggedIn: false
 };
 
 export const store = Redux.createStore(agoReducer, initialState);
@@ -32,8 +33,6 @@ window.onerror = (message, filename, lineno, colno, error) => {
     alert(message + "\n" + error);
     pushErrorNotification(message, filename, lineno, colno, error);
 }
-
-setPassphrase(prompt("Passphrase:"));
 
 const listen = () => {
     $.connection.agoHub.client.trace = (message) => pushTraceNotification(message);

@@ -9,4 +9,5 @@ export interface IState {
   aboveDrafts: { [id: string]: string },
   belowDrafts: { [id: string]: string },
   selectedItemId: string;
+  isLoggedIn: boolean;
 }

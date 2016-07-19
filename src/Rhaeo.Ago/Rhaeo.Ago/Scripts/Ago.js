@@ -8,6 +8,7 @@ define(["require", "exports", "react", "react-dom", "redux", "./Messages/SignalR
         aboveDrafts: {},
         belowDrafts: {},
         selectedItemId: null,
+        isLoggedIn: false
     };
     exports.store = Redux.createStore(AgoReducer_1.agoReducer, initialState);
     var render = function () {
@@ -18,7 +19,6 @@ define(["require", "exports", "react", "react-dom", "redux", "./Messages/SignalR
         alert(message + "\n" + error);
         ActionCreators_1.pushErrorNotification(message, filename, lineno, colno, error);
     };
-    ActionCreators_1.setPassphrase(prompt("Passphrase:"));
     var listen = function () {
         SignalR_1.$.connection.agoHub.client.trace = function (message) { return ActionCreators_1.pushTraceNotification(message); };
         SignalR_1.$.connection.agoHub.client.pong = function (payload) { return ActionCreators_1.pushTraceNotification("PONG invoked on server " + payload); };
