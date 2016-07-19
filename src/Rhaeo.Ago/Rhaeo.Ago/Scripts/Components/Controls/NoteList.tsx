@@ -5,12 +5,12 @@ import { ILink } from "./../../Models/ILink";
 import { Note } from "./Note";
 import { NoteDraft } from "./NoteDraft";
 import { electPivotItem } from "./../../Actions/ActionCreators";
-import { decrypt } from "./../../Helpers/Encryption";
 
 export interface INoteProps {
   items: ILink[];
   aboveDrafts: { [id: string]: string },
   belowDrafts: { [id: string]: string },
+  cleartexts: { [id: string]: string },
   selectedItemId: string;
   newDraft: string;
   passphrase: string;
@@ -22,7 +22,7 @@ export const NoteList = (props: INoteProps) => (
     {props.items.length > 0
       ? props.items.map((i, index) => (
         <Note
-          cleartext={decrypt(i.item.cyphertext, props.passphrase, i.item.salt, i.item.iV)}
+          cleartext={props.cleartexts[i.item.id]}
           aboveDraft={props.aboveDrafts[i.item.id]}
           aboveId={i.prevId}
           belowDraft={props.belowDrafts[i.item.id]}

@@ -198,6 +198,8 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\Libraries\crypto-js-rollups-aes%403.1.2.min.js" />
+    <Content Include="Scripts\Libraries\crypto-js-rollups-pbkdf2%403.1.2.min.js" />
     <Content Include="Styles\bootstrap.css" />
     <Content Include="Styles\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -296,7 +298,6 @@
     <TypeScriptCompile Include="Scripts\Components\Controls\NoteList.tsx" />
     <TypeScriptCompile Include="Scripts\Components\Pages\IndexPage.tsx" />
     <TypeScriptCompile Include="Scripts\Components\Pages\LoginPage.tsx" />
-    <TypeScriptCompile Include="Scripts\Helpers\Encryption.ts" />
     <TypeScriptCompile Include="Scripts\Messages\SignalR.ts" />
     <TypeScriptCompile Include="Scripts\Models\IItem.ts" />
     <TypeScriptCompile Include="Scripts\Models\ILink.ts" />
@@ -304,7 +305,9 @@
     <TypeScriptCompile Include="Scripts\Models\IState.ts" />
     <TypeScriptCompile Include="Scripts\Polyfills\Array.ts" />
     <TypeScriptCompile Include="Scripts\Polyfills\Object.ts" />
+    <TypeScriptCompile Include="Scripts\Polyfills\Window.ts" />
     <TypeScriptCompile Include="Scripts\Reducers\AgoReducer.ts" />
+    <TypeScriptCompile Include="Scripts\Workers\AgoWorker.ts" />
     <TypeScriptCompile Include="Typings\promise\promise.d.ts" />
     <TypeScriptCompile Include="Typings\react\react-0.13.3.d.ts" />
     <TypeScriptCompile Include="Typings\react\react-addons-create-fragment.d.ts" />

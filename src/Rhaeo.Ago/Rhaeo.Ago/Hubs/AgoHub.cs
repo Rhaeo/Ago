@@ -49,8 +49,6 @@ namespace Rhaeo.Ago.Hubs
                 Trace.WriteLine($"OnConnected: {Context.ConnectionId} {Context.User.Identity.Name} already in list.");
             }
 
-            Sync();
-
             return base.OnConnected();
         }
 
@@ -106,16 +104,21 @@ namespace Rhaeo.Ago.Hubs
 
         // Actions:
 
+        public void RequestSync()
+        {
+            Sync();
+        }
+
         public double Ping(double payload)
         {
             Clients.Caller.pong(payload);
             return payload;
         }
 
-        public void CreateNewTask(ItemNewModel item)
+        public void CreateNewTask(string cyphertext, string salt, string iv)
         {
             var id = Guid.NewGuid();
-            Repository.AddItem(id, item.Cyphertext, item.Salt, item.IV);
+            Repository.AddItem(id, cyphertext, salt, iv);
             Sync();
         }
 

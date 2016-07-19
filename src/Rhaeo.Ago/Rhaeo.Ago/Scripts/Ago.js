@@ -7,6 +7,7 @@ define(["require", "exports", "react", "react-dom", "redux", "./Messages/SignalR
         newDraft: "",
         aboveDrafts: {},
         belowDrafts: {},
+        cleartexts: {},
         selectedItemId: null,
         isLoggedIn: false
     };
@@ -37,5 +38,35 @@ define(["require", "exports", "react", "react-dom", "redux", "./Messages/SignalR
             ActionCreators_1.pushDebugNotification("PING invoked on client");
         });
     });
+    exports.worker = new Worker("/Scripts/Workers/AgoWorker.js");
+    exports.worker.onmessage = function (message) {
+        switch (message.data.type) {
+            case "CreateNewTaskEncryptStart":
+                {
+                    // TODO: Spinner.
+                    break;
+                }
+            case "CreateNewTaskEncryptEnd":
+                {
+                    ActionCreators_1.saveEncryptedItem(message.data.cyphertext, message.data.salt, message.data.iv);
+                    break;
+                }
+            case "ReplaceItemDecryptStart":
+                {
+                    // TODO: Spinner in state.cleartexts[isInProgress/value].
+                    break;
+                }
+            case "ReplaceItemDecryptEnd":
+                {
+                    ActionCreators_1.cacheDecryptedText(message.data.id, message.data.cleartext);
+                    break;
+                }
+            default:
+                {
+                    throw new Error("Unknown message type " + message.data.type + ". " + JSON.stringify(message.data));
+                }
+        }
+    };
+    exports.worker.onerror = function (error) { return ActionCreators_1.pushErrorNotification("Worker error " + error.type); };
 });
 //# sourceMappingURL=Ago.js.map

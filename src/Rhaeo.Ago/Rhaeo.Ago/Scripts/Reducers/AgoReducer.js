@@ -1,4 +1,4 @@
-define(["require", "exports", "./../Messages/SignalR", "./../Helpers/Encryption"], function (require, exports, SignalR_1, Encryption_1) {
+define(["require", "exports", "./../Messages/SignalR", "./../Ago"], function (require, exports, SignalR_1, Ago_1) {
     "use strict";
     exports.agoReducer = function (state, action) {
         state = Object.assign({}, state);
@@ -16,7 +16,16 @@ define(["require", "exports", "./../Messages/SignalR", "./../Helpers/Encryption"
             case 1 /* CreateNewTask */:
                 {
                     var payload = action.payload;
-                    SignalR_1.$.connection.agoHub.server.createNewTask(Encryption_1.encrypt(payload.text, state.passphrase));
+                    var message = {
+                        cleartext: payload.text,
+                        passphrase: state.passphrase,
+                        startMessage: { type: "CreateNewTaskEncryptStart" },
+                        endMessage: { type: "CreateNewTaskEncryptEnd" }
+                    };
+                    Ago_1.worker.postMessage({
+                        type: "encrypt",
+                        message: message
+                    });
                     state.newDraft = "";
                     break;
                 }
@@ -47,6 +56,23 @@ define(["require", "exports", "./../Messages/SignalR", "./../Helpers/Encryption"
             case 6 /* ReplaceItems */:
                 {
                     var payload = action.payload;
+                    for (var _i = 0, _a = payload.items; _i < _a.length; _i++) {
+                        var item = _a[_i];
+                        if (!state.cleartexts[item.item.id]) {
+                            var message = {
+                                cyphertext: item.item.cyphertext,
+                                passphrase: state.passphrase,
+                                salt: item.item.salt,
+                                iv: item.item.iV,
+                                startMessage: { type: "ReplaceItemDecryptStart", id: item.item.id },
+                                endMessage: { type: "ReplaceItemDecryptEnd", id: item.item.id }
+                            };
+                            Ago_1.worker.postMessage({
+                                type: "decrypt",
+                                message: message
+                            });
+                        }
+                    }
                     state.items = payload.items;
                     break;
                 }
@@ -104,12 +130,34 @@ define(["require", "exports", "./../Messages/SignalR", "./../Helpers/Encryption"
                     //const payload = (action as Actions.ILoginAction).payload;
                     // TODO: When registering, generate a check word on client and encrypt it, save it with the user data, then verify here.
                     state.isLoggedIn = true;
+                    SignalR_1.$.connection.agoHub.server.requestSync();
                     break;
                 }
             case 21 /* Logout */:
                 {
                     state.passphrase = null;
                     state.isLoggedIn = false;
+                    state.cleartexts = {};
+                    break;
+                }
+            case 24 /* RequestEncryption */:
+                {
+                    break;
+                }
+            case 23 /* RequestDecryption */:
+                {
+                    break;
+                }
+            case 25 /* SaveEncryptedItem */:
+                {
+                    var payload = action.payload;
+                    SignalR_1.$.connection.agoHub.server.createNewTask(payload.cyphertext, payload.salt, payload.iv);
+                    break;
+                }
+            case 26 /* CacheDecryptedText */:
+                {
+                    var payload = action.payload;
+                    state.cleartexts[payload.id] = payload.cleartext;
                     break;
                 }
             default:

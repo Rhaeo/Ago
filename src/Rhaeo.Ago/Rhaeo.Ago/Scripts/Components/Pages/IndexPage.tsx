@@ -22,6 +22,7 @@ export const IndexPage = (props: IIndexPageProps) => (
         <NoteList
           aboveDrafts={props.aboveDrafts}
           belowDrafts={props.belowDrafts}
+          cleartexts={props.cleartexts}
           newDraft={props.newDraft}
           items={props.items}
           selectedItemId={props.selectedItemId}

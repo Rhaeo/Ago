@@ -1,9 +1,9 @@
 ﻿import * as Redux from "redux";
 import { $ } from "./../Messages/SignalR";
 import { IState } from "./../Models/IState";
-import { encrypt } from "./../Helpers/Encryption";
 import { ActionTypes } from "./../Actions/ActionTypes";
 import * as Actions from "./../Actions/Actions";
+import { worker, store } from "./../Ago";
 
 export const agoReducer: Redux.Reducer<IState> = (state: IState, action: Redux.Action) => {
   state = Object.assign({}, state);
@@ -21,7 +21,18 @@ export const agoReducer: Redux.Reducer<IState> = (state: IState, action: Redux.A
     case ActionTypes.CreateNewTask:
       {
         const payload = (action as Actions.ICreateNewTaskAction).payload;
-        $.connection.agoHub.server.createNewTask(encrypt(payload.text, state.passphrase));
+        const message = {
+          cleartext: payload.text,
+          passphrase: state.passphrase,
+          startMessage: { type: "CreateNewTaskEncryptStart" },
+          endMessage: { type: "CreateNewTaskEncryptEnd" }
+        };
+
+        worker.postMessage({
+          type: "encrypt",
+          message
+        });
+
         state.newDraft = "";
         break;
       }
@@ -52,6 +63,24 @@ export const agoReducer: Redux.Reducer<IState> = (state: IState, action: Redux.A
     case ActionTypes.ReplaceItems:
       {
         const payload = (action as Actions.IReplaceItemsAction).payload;
+        for (const item of payload.items) {
+          if (!state.cleartexts[item.item.id]) {
+            const message = {
+              cyphertext: item.item.cyphertext,
+              passphrase: state.passphrase,
+              salt: item.item.salt,
+              iv: item.item.iV,
+              startMessage: { type: "ReplaceItemDecryptStart", id: item.item.id },
+              endMessage: { type: "ReplaceItemDecryptEnd", id: item.item.id }
+            };
+
+            worker.postMessage({
+              type: "decrypt",
+              message
+            });
+          }
+        }
+
         state.items = payload.items;
         break;
       }
@@ -109,12 +138,36 @@ export const agoReducer: Redux.Reducer<IState> = (state: IState, action: Redux.A
         //const payload = (action as Actions.ILoginAction).payload;
         // TODO: When registering, generate a check word on client and encrypt it, save it with the user data, then verify here.
         state.isLoggedIn = true;
+        $.connection.agoHub.server.requestSync();
         break;
       }
     case ActionTypes.Logout:
       {
         state.passphrase = null;
         state.isLoggedIn = false;
+        state.cleartexts = {};
+        break;
+      }
+    case ActionTypes.RequestEncryption:
+      {
+
+        break;
+      }
+    case ActionTypes.RequestDecryption:
+      {
+
+        break;
+      }
+    case ActionTypes.SaveEncryptedItem:
+      {
+        const payload = (action as Actions.ISaveEncryptedItemAction).payload;
+        $.connection.agoHub.server.createNewTask(payload.cyphertext, payload.salt, payload.iv);
+        break;
+      }
+    case ActionTypes.CacheDecryptedText:
+      {
+        const payload = (action as Actions.ICacheDecryptedTextAction).payload;
+        state.cleartexts[payload.id] = payload.cleartext;
         break;
       }
     default:

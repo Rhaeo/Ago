@@ -198,5 +198,57 @@ define(["require", "exports", "./../Ago"], function (require, exports, Ago_1) {
         };
         Ago_1.store.dispatch(action);
     };
+    exports.processMessage = function (data) {
+        var action = {
+            type: 22 /* ProcessMessage */,
+            payload: {
+                data: data
+            }
+        };
+        Ago_1.store.dispatch(action);
+    };
+    exports.requestEncryption = function (cleartext, passphrase) {
+        var action = {
+            type: 24 /* RequestEncryption */,
+            payload: {
+                cleartext: cleartext,
+                passphrase: passphrase
+            }
+        };
+        Ago_1.store.dispatch(action);
+    };
+    exports.requestDecryption = function (cyphertext, passphrase, salt, iv) {
+        var action = {
+            type: 23 /* RequestDecryption */,
+            payload: {
+                cyphertext: cyphertext,
+                passphrase: passphrase,
+                salt: salt,
+                iv: iv
+            }
+        };
+        Ago_1.store.dispatch(action);
+    };
+    exports.saveEncryptedItem = function (cyphertext, salt, iv) {
+        var action = {
+            type: 25 /* SaveEncryptedItem */,
+            payload: {
+                cyphertext: cyphertext,
+                salt: salt,
+                iv: iv
+            }
+        };
+        Ago_1.store.dispatch(action);
+    };
+    exports.cacheDecryptedText = function (id, cleartext) {
+        var action = {
+            type: 26 /* CacheDecryptedText */,
+            payload: {
+                id: id,
+                cleartext: cleartext
+            }
+        };
+        Ago_1.store.dispatch(action);
+    };
 });
 //# sourceMappingURL=ActionCreators.js.map

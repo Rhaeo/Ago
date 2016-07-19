@@ -12,6 +12,21 @@ export interface ICreateNewTaskAction extends Redux.Action {
   }
 }
 
+export interface ISaveEncryptedItemAction extends Redux.Action {
+  payload: {
+    cyphertext: string;
+    salt: string;
+    iv: string;
+  }
+}
+
+export interface ICacheDecryptedTextAction extends Redux.Action {
+  payload: {
+    id: string;
+    cleartext: string;
+  }
+}
+
 export interface IPushErrorNotificationAction extends Redux.Action {
   payload: {
     message: string;
@@ -133,4 +148,26 @@ export interface ILoginAction extends Redux.Action {
 
 export interface ILogoutAction extends Redux.Action {
 
+}
+
+export interface IProcessMessageAction extends Redux.Action {
+  payload: {
+    data: any;
+  }
+}
+
+export interface IRequestEncryptionAction extends Redux.Action {
+  payload: {
+    cleartext: string;
+    passphrase: string;
+  }
+}
+
+export interface IRequestDecryptionAction extends Redux.Action {
+  payload: {
+    cyphertext: string;
+    passphrase: string;
+    salt: string;
+    iv: string;
+  }
 }

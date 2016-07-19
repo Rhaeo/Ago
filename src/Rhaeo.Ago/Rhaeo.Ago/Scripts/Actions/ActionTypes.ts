@@ -24,5 +24,10 @@
   CommitBelowDraft,
   CommitNewDraft,
   Login,
-  Logout
+  Logout,
+  ProcessMessage,
+  RequestDecryption,
+  RequestEncryption,
+  SaveEncryptedItem,
+  CacheDecryptedText
 }

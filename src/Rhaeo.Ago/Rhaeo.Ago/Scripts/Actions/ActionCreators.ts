@@ -244,3 +244,65 @@ export const logout = () => {
 
   store.dispatch(action);
 }
+
+export const processMessage = (data: any) => {
+  const action: Actions.IProcessMessageAction = {
+    type: ActionTypes.ProcessMessage,
+    payload: {
+      data
+    }
+  };
+
+  store.dispatch(action);
+};
+
+export const requestEncryption = (cleartext: string, passphrase: string) => {
+  const action: Actions.IRequestEncryptionAction = {
+    type: ActionTypes.RequestEncryption,
+    payload: {
+      cleartext,
+      passphrase
+    }
+  };
+
+  store.dispatch(action);
+};
+
+export const requestDecryption = (cyphertext: string, passphrase: string, salt: string, iv: string) => {
+  const action: Actions.IRequestDecryptionAction = {
+    type: ActionTypes.RequestDecryption,
+    payload: {
+      cyphertext,
+      passphrase,
+      salt,
+      iv
+    }
+  };
+
+  store.dispatch(action);
+};
+
+export const saveEncryptedItem = (cyphertext: string, salt: string, iv: string) => {
+  const action: Actions.ISaveEncryptedItemAction = {
+    type: ActionTypes.SaveEncryptedItem,
+    payload: {
+      cyphertext,
+      salt,
+      iv
+    }
+  };
+
+  store.dispatch(action);
+};
+
+export const cacheDecryptedText = (id: string, cleartext: string) => {
+  const action: Actions.ICacheDecryptedTextAction = {
+    type: ActionTypes.CacheDecryptedText,
+    payload: {
+      id,
+      cleartext
+    }
+  };
+
+  store.dispatch(action);
+};

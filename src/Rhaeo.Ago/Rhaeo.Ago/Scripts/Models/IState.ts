@@ -8,6 +8,7 @@ export interface IState {
   newDraft: string;
   aboveDrafts: { [id: string]: string },
   belowDrafts: { [id: string]: string },
+  cleartexts: { [id: string]: string },
   selectedItemId: string;
   isLoggedIn: boolean;
 }
