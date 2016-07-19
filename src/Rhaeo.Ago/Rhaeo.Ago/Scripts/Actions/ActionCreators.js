@@ -192,5 +192,11 @@ define(["require", "exports", "./../Ago"], function (require, exports, Ago_1) {
         };
         Ago_1.store.dispatch(action);
     };
+    exports.logout = function () {
+        var action = {
+            type: 21 /* Logout */
+        };
+        Ago_1.store.dispatch(action);
+    };
 });
 //# sourceMappingURL=ActionCreators.js.map

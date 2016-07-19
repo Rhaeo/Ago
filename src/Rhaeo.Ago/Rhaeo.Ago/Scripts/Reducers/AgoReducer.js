@@ -106,6 +106,12 @@ define(["require", "exports", "./../Messages/SignalR", "./../Helpers/Encryption"
                     state.isLoggedIn = true;
                     break;
                 }
+            case 21 /* Logout */:
+                {
+                    state.passphrase = null;
+                    state.isLoggedIn = false;
+                    break;
+                }
             default:
                 {
                     throw new Error("Unknown action type " + action.type + ". " + JSON.stringify(action));

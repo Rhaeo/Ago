@@ -8,7 +8,7 @@ import * as Redux from "redux";
 import { $ } from "./Messages/SignalR";
 import { IAgoProps, Ago } from "./Components/Ago";
 import { agoReducer } from "./Reducers/AgoReducer";
-import { pushErrorNotification, pushTraceNotification, pushDebugNotification, setPassphrase, replaceItems } from "./Actions/ActionCreators";
+import { pushErrorNotification, pushTraceNotification, pushDebugNotification, replaceItems, logout } from "./Actions/ActionCreators";
 
 const initialState: IAgoProps = {
     passphrase: "",
@@ -33,6 +33,10 @@ window.onerror = (message, filename, lineno, colno, error) => {
     alert(message + "\n" + error);
     pushErrorNotification(message, filename, lineno, colno, error);
 }
+
+window.onblur = (event: FocusEvent) => {
+  logout();
+};
 
 const listen = () => {
     $.connection.agoHub.client.trace = (message) => pushTraceNotification(message);

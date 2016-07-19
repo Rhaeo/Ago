@@ -105,12 +105,18 @@ export const agoReducer: Redux.Reducer<IState> = (state: IState, action: Redux.A
         break;
       }
     case ActionTypes.Login:
-    {
+      {
         //const payload = (action as Actions.ILoginAction).payload;
         // TODO: When registering, generate a check word on client and encrypt it, save it with the user data, then verify here.
         state.isLoggedIn = true;
         break;
-    }
+      }
+    case ActionTypes.Logout:
+      {
+        state.passphrase = null;
+        state.isLoggedIn = false;
+        break;
+      }
     default:
       {
         throw new Error(`Unknown action type ${action.type}. ${JSON.stringify(action)}`);

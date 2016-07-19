@@ -236,3 +236,11 @@ export const login = () => {
 
   store.dispatch(action);
 }
+
+export const logout = () => {
+  const action: Actions.ILogoutAction = {
+    type: ActionTypes.Logout
+  };
+
+  store.dispatch(action);
+}

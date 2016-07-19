@@ -23,5 +23,6 @@
   CommitAboveDraft,
   CommitBelowDraft,
   CommitNewDraft,
-  Login
+  Login,
+  Logout
 }

@@ -19,6 +19,9 @@ define(["require", "exports", "react", "react-dom", "redux", "./Messages/SignalR
         alert(message + "\n" + error);
         ActionCreators_1.pushErrorNotification(message, filename, lineno, colno, error);
     };
+    window.onblur = function (event) {
+        ActionCreators_1.logout();
+    };
     var listen = function () {
         SignalR_1.$.connection.agoHub.client.trace = function (message) { return ActionCreators_1.pushTraceNotification(message); };
         SignalR_1.$.connection.agoHub.client.pong = function (payload) { return ActionCreators_1.pushTraceNotification("PONG invoked on server " + payload); };

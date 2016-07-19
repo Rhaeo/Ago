@@ -130,3 +130,7 @@ export interface ICommitNewDraftAction extends Redux.Action {
 export interface ILoginAction extends Redux.Action {
   
 }
+
+export interface ILogoutAction extends Redux.Action {
+
+}
