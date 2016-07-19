@@ -14,6 +14,7 @@ const handleChange = (event: React.FormEvent) => {
 const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.keyCode === 13) {
         createNewTask((event.currentTarget as HTMLInputElement).value);
+        event.preventDefault();
     }
 };
 

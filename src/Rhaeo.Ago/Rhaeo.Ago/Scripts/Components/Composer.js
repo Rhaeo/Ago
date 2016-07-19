@@ -6,6 +6,7 @@ define(["require", "exports", "react", "./../Actions/ActionCreators"], function 
     var handleKeyDown = function (event) {
         if (event.keyCode === 13) {
             ActionCreators_1.createNewTask(event.currentTarget.value);
+            event.preventDefault();
         }
     };
     // ReSharper disable once InconsistentNaming

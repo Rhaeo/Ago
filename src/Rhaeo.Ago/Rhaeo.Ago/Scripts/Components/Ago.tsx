@@ -22,7 +22,7 @@ export const Ago = (props: IAgoProps) => (
         <Composer text={props.draftText} />
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
             <div>
-                <h2>Items {console.debug("yoyoyo", props.items)}</h2>
+                <h2>Items ({props.items && props.items.length})</h2>
                 {props.items && props.items.map((i, index) => (
                     <div style={{ background: index % 2 === 0 ? "none" : "silver", display: "flex" }}>
                         <button onClick={event => markItemById(i.item.id) }>✔</button>
