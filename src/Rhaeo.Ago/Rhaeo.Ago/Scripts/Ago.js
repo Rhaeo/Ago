@@ -11,7 +11,10 @@ define(["require", "exports", "react", "react-dom", "redux", "./Messages/SignalR
         ReactDOM.render(React.createElement(Ago_1.Ago, exports.store.getState(), null), document.getElementById("Ago"));
     };
     exports.store.subscribe(render);
-    window.onerror = function (message, filename, lineno, colno, error) { return ActionCreators_1.pushErrorNotification(message, filename, lineno, colno, error); };
+    window.onerror = function (message, filename, lineno, colno, error) {
+        alert(message + "\n" + error);
+        ActionCreators_1.pushErrorNotification(message, filename, lineno, colno, error);
+    };
     ActionCreators_1.setPassphrase(prompt("Passphrase:"));
     var listen = function () {
         SignalR_1.$.connection.agoHub.client.trace = function (message) { return ActionCreators_1.pushTraceNotification(message); };

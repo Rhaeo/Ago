@@ -11,8 +11,8 @@ const handleChange = (event: React.FormEvent) => {
     changeComposerText((event.currentTarget as HTMLInputElement).value);
 };
 
-const handleKeyPress = (event: React.KeyboardEvent) => {
-    if (event.key === "Enter") {
+const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.keyCode === 13) {
         createNewTask((event.currentTarget as HTMLInputElement).value);
     }
 };
@@ -20,9 +20,9 @@ const handleKeyPress = (event: React.KeyboardEvent) => {
 // ReSharper disable once InconsistentNaming
 export const Composer = (props: IComposerProps) => (
     <div style={{ display: "flex" }}>
-        <input
+        <textarea
             onChange={event => handleChange(event) }
-            onKeyPress={event => handleKeyPress(event) }
+            onKeyDown={event => handleKeyDown(event) }
             placeholder="Compose the item…"
             style={{ flex: 1, padding: 10 }}
             value={props.text} />
