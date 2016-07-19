@@ -15,6 +15,9 @@ const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.keyCode === 13) {
         createNewTask((event.currentTarget as HTMLInputElement).value);
         event.preventDefault();
+
+        // Hide software keyboard on mobile after sending.
+        (event.currentTarget as HTMLInputElement).blur();
     }
 };
 

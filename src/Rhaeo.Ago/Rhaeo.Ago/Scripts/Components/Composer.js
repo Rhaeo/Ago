@@ -7,6 +7,8 @@ define(["require", "exports", "react", "./../Actions/ActionCreators"], function 
         if (event.keyCode === 13) {
             ActionCreators_1.createNewTask(event.currentTarget.value);
             event.preventDefault();
+            // Hide software keyboard on mobile after sending.
+            event.currentTarget.blur();
         }
     };
     // ReSharper disable once InconsistentNaming
