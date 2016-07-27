@@ -293,6 +293,7 @@
     <TypeScriptCompile Include="Scripts\Components\Ago.tsx" />
     <TypeScriptCompile Include="Scripts\Components\Controls\Composer.tsx" />
     <TypeScriptCompile Include="Scripts\Components\Controls\Menu.tsx" />
+    <TypeScriptCompile Include="Scripts\Components\Controls\Navigation.tsx" />
     <TypeScriptCompile Include="Scripts\Components\Controls\Note.tsx" />
     <TypeScriptCompile Include="Scripts\Components\Controls\NoteDraft.tsx" />
     <TypeScriptCompile Include="Scripts\Components\Controls\NoteList.tsx" />

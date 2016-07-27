@@ -11,4 +11,5 @@ export interface IState {
   cleartexts: { [id: string]: string },
   selectedItemId: string;
   isLoggedIn: boolean;
+  selectedTab: "Items" | "Tasks" | "Notifications";
 }

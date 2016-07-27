@@ -21,7 +21,7 @@ define(["require", "exports", "react", "react-dom", "redux", "./Messages/SignalR
         ActionCreators_1.pushErrorNotification(message, filename, lineno, colno, error);
     };
     window.onblur = function (event) {
-        ActionCreators_1.logout();
+        //logout();
     };
     var listen = function () {
         SignalR_1.$.connection.agoHub.client.trace = function (message) { return ActionCreators_1.pushTraceNotification(message); };

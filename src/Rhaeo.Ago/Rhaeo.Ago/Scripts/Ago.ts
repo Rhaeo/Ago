@@ -36,7 +36,7 @@ window.onerror = (message, filename, lineno, colno, error) => {
 }
 
 window.onblur = (event: FocusEvent) => {
-  logout();
+  //logout();
 };
 
 const listen = () => {

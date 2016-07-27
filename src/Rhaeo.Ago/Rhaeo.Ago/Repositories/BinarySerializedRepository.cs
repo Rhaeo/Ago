@@ -74,6 +74,11 @@ namespace Rhaeo.Ago.Repositories
                 new ConcurrentDictionary<Guid, Item>();
 
             public readonly List<Exception> Errors = new List<Exception>();
+
+            public readonly ConcurrentDictionary<Guid, string> Tags =
+                new ConcurrentDictionary<Guid, string>();
+
+
         }
 
         // Methods:

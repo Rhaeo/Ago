@@ -42,7 +42,7 @@ export const Note = (props: INoteProps) => (
     {props.isAlone ? null : <button onClick={event => moveAbove(props.id, props.aboveId) }>↑</button>}
     {props.isAlone ? null : <button onClick={event => moveBelow(props.id, props.belowId) }>↓</button>}
     <input checked={props.isMarked} type="checkbox" />
-    <div style={{ display: "flex", flex: "1 0 0", flexDirection: "column" }}>
+    <div style={{ display: "flex", flex: "1 0 0" }}>
       <input
         onChange={event => handleAboveChange(event, props.id) }
         onKeyDown={e => handleAboveKeyDown(e, props.id) }
