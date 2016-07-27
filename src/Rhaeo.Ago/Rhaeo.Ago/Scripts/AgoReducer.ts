@@ -1,10 +1,8 @@
 ﻿import * as Redux from "redux";
-import { $ } from "./Messages/SignalR";
 import { IState } from "./Models/IState";
-import { worker, store } from "./Ago";
+import { store } from "./Ago";
 import {
   ActionTypes,
-  ICreateNewTaskAction,
   IChangeComposerTextAction,
   ISaveEncryptedItemAction,
   IUpdateAboveDraftAction,
@@ -14,9 +12,6 @@ import {
   IPushTraceNotificationAction,
   ISetPassphraseAction,
   IReplaceItemsAction,
-  IMarkItemByIdAction,
-  IRemoveItemByIdAction,
-  ISwapItemsByIdsAction,
   IElectPivotItemAction,
   IMoveAboveAction,
   IMoveBelowAction,
@@ -24,51 +19,42 @@ import {
   ICacheDecryptedTextAction
 } from "./ActionCreators";
 
-export const agoReducer: Redux.Reducer<IState> = (state: IState, action: Redux.Action) => {
-  state = Object.assign({}, state);
-  switch (action.type) {
-    case "@@redux/INIT": {
-      break;
-    }
-    case ActionTypes.ChangeComposerText: {
-      state.newDraft = (action as IChangeComposerTextAction).text;
-      break;
-    }
-    case ActionTypes.CreateNewTask: {
-      const message = {
-        cleartext: (action as ICreateNewTaskAction).text,
-        passphrase: state.passphrase,
-        startMessage: { type: "CreateNewTaskEncryptStart" },
-        endMessage: { type: "CreateNewTaskEncryptEnd" }
-      };
+export const agoReducer: Redux.Reducer<IState> = (originalState: IState = {
+  passphrase: "",
+  items: [],
+  notifications: [],
+  newDraft: "",
+  aboveDrafts: {},
+  belowDrafts: {},
+  cleartexts: {},
+  selectedItemId: null,
+  isLoggedIn: false,
+  selectedTab: "Tasks"
+}, originalAction: Redux.Action) => {
+  console.debug("state", originalState);
+  console.debug("action", originalAction);
 
-      worker.postMessage({
-        type: "encrypt",
-        message
-      });
+  const branches = {
+    ["@@redux/INIT"]: (state, action) => state,
+    [ActionTypes.CacheDecryptedText]: (state: IState, action: ICacheDecryptedTextAction) => state,
 
-      state.newDraft = "";
-      break;
-    }
-    case ActionTypes.PushErrorNotification: {
-      state.notifications.unshift({ message: (action as IPushErrorNotificationAction).message });
-      break;
-    }
-    case ActionTypes.PushDebugNotification: {
-      state.notifications.unshift({ message: (action as IPushDebugNotificationAction).message });
-      break;
-    }
-    case ActionTypes.PushTraceNotification: {
-      state.notifications.unshift({ message: (action as IPushTraceNotificationAction).message });
-      break;
-    }
-    case ActionTypes.SetPassphrase: {
-      state.passphrase = (action as ISetPassphraseAction).passphrase;
-      break;
-    }
-    case ActionTypes.ReplaceItems: {
-      const payload = action as IReplaceItemsAction;
-      for (const item of payload.items) {
+    [ActionTypes.ChangeComposerText]: (state: IState, action: IChangeComposerTextAction) =>
+      state.newDraft = action.text,
+
+    [ActionTypes.PushErrorNotification]: (state: IState, action: IPushErrorNotificationAction) =>
+      state.notifications.unshift({ message: action.message }),
+
+    [ActionTypes.PushDebugNotification]: (state: IState, action: IPushDebugNotificationAction) => 
+      state.notifications.unshift({ message: action.message }),
+
+    [ActionTypes.PushTraceNotification]: (state: IState, action: IPushTraceNotificationAction) =>
+      state.notifications.unshift({ message: action.message }),
+
+    [ActionTypes.SetPassphrase]: (state: IState, action: ISetPassphraseAction) =>
+      state.passphrase = action.passphrase,
+
+    [ActionTypes.ReplaceItems]: (state: IState, action: IReplaceItemsAction) => {
+      for (const item of action.items) {
         if (!state.cleartexts[item.item.id]) {
           const message = {
             cyphertext: item.item.cyphertext,
@@ -79,91 +65,51 @@ export const agoReducer: Redux.Reducer<IState> = (state: IState, action: Redux.A
             endMessage: { type: "ReplaceItemDecryptEnd", id: item.item.id }
           };
 
-          worker.postMessage({
-            type: "decrypt",
-            message
-          });
+          // TODO: Move logic to action creator.
+          //worker.postMessage({
+          //  type: "decrypt",
+          //  message
+          //});
         }
       }
 
-      state.items = payload.items;
-      break;
-    }
-    case ActionTypes.MarkItemById: {
-      $.connection.agoHub.server.markTask((action as IMarkItemByIdAction).id);
-      break;
-    }
-    case ActionTypes.RemoveItemById: {
-      $.connection.agoHub.server.removeTask((action as IRemoveItemByIdAction).id);
-      break;
-    }
-    case ActionTypes.SwapItemsByIds: {
-      const payload = (action as ISwapItemsByIdsAction);
-      $.connection.agoHub.server.swapTasks(payload.id1, payload.id2);
-      break;
-    }
-    case ActionTypes.ElectPivotItem: {
-      state.selectedItemId = (action as IElectPivotItemAction).id;
-      break;
-    }
-    case ActionTypes.MoveAbove: {
-      break;
-    }
-    case ActionTypes.MoveBelow: {
-      break;
-    }
-    case ActionTypes.UpdateItemById: {
-      break;
-    }
-    case ActionTypes.UpdateBelowDraft: {
-      break;
-    }
-    case ActionTypes.UpdateAboveDraft: {
-      break;
-    }
-    case ActionTypes.Login: {
-      // TODO: When registering, generate a check word on client and encrypt it, save it with the user data, then verify here.
-      state.isLoggedIn = true;
-      $.connection.agoHub.server.requestSync();
-      break;
-    }
-    case ActionTypes.Logout: {
+      state.items = action.items;
+    },
+
+    [ActionTypes.ElectPivotItem]: (state: IState, action: IElectPivotItemAction) =>
+      state.selectedItemId = action.id,
+
+    [ActionTypes.Login]: (state: IState) =>
+      state.isLoggedIn = true,
+
+    [ActionTypes.Logout]: (state: IState) => {
       state.passphrase = null;
       state.isLoggedIn = false;
       state.cleartexts = {};
-      break;
-    }
-    case ActionTypes.RequestEncryption: {
+    },
 
-      break;
-    }
-    case ActionTypes.RequestDecryption: {
+    [ActionTypes.CacheDecryptedText]: (state: IState, action: ICacheDecryptedTextAction) =>
+      state.cleartexts[action.id] = action.cleartext,
 
-      break;
-    }
-    case ActionTypes.SaveEncryptedItem: {
-      const payload = action as ISaveEncryptedItemAction;
-      $.connection.agoHub.server.createNewTask(payload.cyphertext, payload.salt, payload.iv);
-      break;
-    }
-    case ActionTypes.CacheDecryptedText: {
-      const payload = action as ICacheDecryptedTextAction;
-      state.cleartexts[payload.id] = payload.cleartext;
-      break;
-    }
-    case ActionTypes.NavigateToItemListPage:
-      state.selectedTab = "Items";
-      break;
-    case ActionTypes.NavigateToTaskListPage:
-      state.selectedTab = "Tasks";
-      break;
-    case ActionTypes.NavigateToNotificationListPage:
-      state.selectedTab = "Notifications";
-      break;
-    default: {
-      throw new Error(`Unknown action type ${action.type}. ${JSON.stringify(action)}`);
-    }
+    [ActionTypes.NavigateToItemListPage]: (state: IState, action: IChangeComposerTextAction) =>
+      state.selectedTab = "Items",
+
+    [ActionTypes.NavigateToTaskListPage]: (state: IState, action: IChangeComposerTextAction) =>
+      state.selectedTab = "Tasks",
+
+    [ActionTypes.NavigateToNotificationListPage]: (state: IState, action: IChangeComposerTextAction) =>
+      state.selectedTab = "Notifications"
+
+  };
+
+  if (branches[originalAction.type]) {
+    // TODO: No depp clone, instead ImmutableJS.
+    const state: IState = Object.assign({}, originalState);
+    branches[originalAction.type](state, originalAction);
+    return state;
   }
 
+  const state: IState = Object.assign({}, originalState);
+  state.notifications.unshift({ message: `Unknown action ${originalAction.type}.` });
   return state;
 };

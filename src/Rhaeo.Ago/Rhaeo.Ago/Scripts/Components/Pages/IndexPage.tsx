@@ -32,7 +32,7 @@ function getSelectedTab(props: IIndexPageProps) {
         <div>
           <h2>Tasks</h2>
           <ul>
-            
+
           </ul>
         </div>);
     case "Notifications":
@@ -58,7 +58,7 @@ export const IndexPage = (props: IIndexPageProps) => (
       itemCount={props.items && props.items.length}
       taskCount={0}
       notificationCount={props.notifications && props.notifications.length} />
-    <Composer text={props.newDraft} />
-    <div style={{ maxWidth: 800, margin: "0 auto" }}>{getSelectedTab(props)}</div>
+    <Composer text={props.newDraft} passphrase={props.passphrase} />
+    <div style={{ maxWidth: 800, margin: "0 auto" }}>{getSelectedTab(props) }</div>
     <Navigation />
   </div>);

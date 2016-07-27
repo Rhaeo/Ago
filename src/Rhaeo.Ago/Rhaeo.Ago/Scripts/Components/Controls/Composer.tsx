@@ -4,7 +4,8 @@ import * as React from "react";
 import { changeComposerText, createNewTask } from "./../../ActionCreators";
 
 export interface IComposerProps {
-    text: string;
+  text: string;
+  passphrase: string;
 }
 
 const handleChange = (event: React.FormEvent) => {
@@ -13,7 +14,7 @@ const handleChange = (event: React.FormEvent) => {
 
 const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.keyCode === 13) {
-        createNewTask((event.currentTarget as HTMLInputElement).value);
+        createNewTask((event.currentTarget as HTMLInputElement).value, this.props.passphrase);
         event.preventDefault();
 
         // Hide software keyboard on mobile after sending.
@@ -31,3 +32,4 @@ export const Composer = (props: IComposerProps) => (
             style={{ flex: 1, padding: 10 }}
             value={props.text} />
     </div>);
+

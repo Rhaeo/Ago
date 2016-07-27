@@ -1,4 +1,4 @@
-define(["require", "exports", "./Ago"], function (require, exports, Ago_1) {
+define(["require", "exports", "./Messages/SignalR", "./Ago"], function (require, exports, SignalR_1, Ago_1) {
     "use strict";
     exports.changeComposerText = function (text) {
         Ago_1.store.dispatch({
@@ -6,11 +6,21 @@ define(["require", "exports", "./Ago"], function (require, exports, Ago_1) {
             text: text
         });
     };
-    exports.createNewTask = function (text) {
-        Ago_1.store.dispatch({
-            type: 2 /* CreateNewTask */,
-            text: text
-        });
+    // createNewTask
+    exports.createNewTask = function (text, passphrase) {
+        var message = {
+            cleartext: text,
+            passphrase: passphrase,
+            startMessage: { type: "CreateNewTaskEncryptStart" },
+            endMessage: { type: "CreateNewTaskEncryptEnd" }
+        };
+        Ago_1.worker.postMessage({ type: "encrypt", message: message });
+        // TODO: Await worker.
+        var cyphertext = "";
+        var salt = "";
+        var iv = "";
+        SignalR_1.$.connection.agoHub.server.createNewTask(cyphertext, salt, iv);
+        Ago_1.store.dispatch({ type: exports.changeComposerText, text: "" });
     };
     exports.pushErrorNotification = function (message, filename, lineno, colno, error) {
         Ago_1.store.dispatch({
@@ -46,24 +56,22 @@ define(["require", "exports", "./Ago"], function (require, exports, Ago_1) {
             items: items
         });
     };
+    // markItemById
     exports.markItemById = function (id) {
-        Ago_1.store.dispatch({
-            type: 8 /* MarkItemById */,
-            id: id
-        });
+        // TODO: Dispatch working…
+        // TODO: Async/await.
+        SignalR_1.$.connection.agoHub.server.markTask(id);
+        // TODO: Dispatch finished.
     };
+    // removeItemById
     exports.removeItemById = function (id) {
-        Ago_1.store.dispatch({
-            type: 9 /* RemoveItemById */,
-            id: id
-        });
+        // TODO: Dispatch working and success/failure and call using async/await wrapped in a promise.
+        SignalR_1.$.connection.agoHub.server.removeTask(id);
     };
+    // swapItemsByIds
     exports.swapItemsByIds = function (id1, id2) {
-        Ago_1.store.dispatch({
-            type: 10 /* SwapItemsByIds */,
-            id1: id1,
-            id2: id2
-        });
+        // TODO: Dispatch working and success/failure and call using async/await wrapped in a promise.
+        SignalR_1.$.connection.agoHub.server.swapTasks(id1, id2);
     };
     exports.electPivotItem = function (id) {
         Ago_1.store.dispatch({
@@ -129,14 +137,13 @@ define(["require", "exports", "./Ago"], function (require, exports, Ago_1) {
         });
     };
     exports.login = function () {
-        Ago_1.store.dispatch({
-            type: 21 /* Login */
-        });
+        // TODO: Async and all that.
+        // TODO: When registering, generate a check word on client and encrypt it, save it with the user data, then verify here.
+        SignalR_1.$.connection.agoHub.server.requestSync();
+        Ago_1.store.dispatch({ type: 21 /* Login */ });
     };
     exports.logout = function () {
-        Ago_1.store.dispatch({
-            type: 22 /* Logout */
-        });
+        Ago_1.store.dispatch({ type: 22 /* Logout */ });
     };
     exports.processMessage = function (data) {
         Ago_1.store.dispatch({

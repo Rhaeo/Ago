@@ -1,11 +1,12 @@
 define(["require", "exports", "react", "./../../ActionCreators"], function (require, exports, React, ActionCreators_1) {
     "use strict";
+    var _this = this;
     var handleChange = function (event) {
         ActionCreators_1.changeComposerText(event.currentTarget.value);
     };
     var handleKeyDown = function (event) {
         if (event.keyCode === 13) {
-            ActionCreators_1.createNewTask(event.currentTarget.value);
+            ActionCreators_1.createNewTask(event.currentTarget.value, _this.props.passphrase);
             event.preventDefault();
             // Hide software keyboard on mobile after sending.
             event.currentTarget.blur();

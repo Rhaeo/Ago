@@ -168,8 +168,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Hubs\IAgoHubServer.cs" />
+    <Compile Include="Hubs\IAgoHubClient.cs" />
     <Compile Include="IdentityConfig.cs" />
     <Compile Include="Models\Link.cs" />
+    <Compile Include="Models\TaskEditModel.cs" />
     <Compile Include="SignalRContractResolver.cs" />
     <Compile Include="Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />

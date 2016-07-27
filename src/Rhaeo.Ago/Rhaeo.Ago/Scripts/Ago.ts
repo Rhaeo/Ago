@@ -11,21 +11,7 @@ import { agoReducer } from "./AgoReducer";
 import { pushErrorNotification, pushTraceNotification, pushDebugNotification, replaceItems, logout, saveEncryptedItem, cacheDecryptedText } from "./ActionCreators";
 import { IState } from "./Models/IState";
 
-// TODO: Replace with optional values on the reducer.
-const initialState: IState = {
-  passphrase: "",
-  items: [],
-  notifications: [],
-  newDraft: "",
-  aboveDrafts: {},
-  belowDrafts: {},
-  cleartexts: {},
-  selectedItemId: null,
-  isLoggedIn: false,
-  selectedTab: "Tasks"
-};
-
-export const store = Redux.createStore(agoReducer, initialState);
+export const store = Redux.createStore(agoReducer); // TODO: Redux dev tools.
 
 const render = () => {
   ReactDOM.render(React.createElement(Ago, store.getState(), null), document.getElementById("Ago"));

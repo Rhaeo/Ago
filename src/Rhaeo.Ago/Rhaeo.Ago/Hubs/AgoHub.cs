@@ -10,7 +10,8 @@ using Rhaeo.Ago.Repositories;
 namespace Rhaeo.Ago.Hubs
 {
     [Authorize]
-    public sealed class AgoHub : Hub
+    // ReSharper disable once ClassNeverInstantiated.Global
+    public sealed class AgoHub : Hub<IAgoHubClient>, IAgoHubServer
     {
         // Fields:
 
@@ -103,6 +104,10 @@ namespace Rhaeo.Ago.Hubs
         }
 
         // Actions:
+
+        public void PersistTask(TaskEditModel task) => Repository.PersistTask();
+
+
 
         public void RequestSync()
         {

@@ -1,4 +1,5 @@
-﻿import { store } from "./Ago";
+﻿import { $ } from "./Messages/SignalR"; // TODO: Promisify.
+import { worker, store } from "./Ago";
 import { ILink } from "./Models/ILink";
 
 // changeComposerText
@@ -18,17 +19,21 @@ export const changeComposerText = (text: string) => {
 
 // createNewTask
 
-export const enum ActionTypes { CreateNewTask = 2 }
+export const createNewTask = (text: string, passphrase: string) => {
+  const message = {
+    cleartext: text,
+    passphrase: passphrase,
+    startMessage: { type: "CreateNewTaskEncryptStart" },
+    endMessage: { type: "CreateNewTaskEncryptEnd" }
+  };
 
-export interface ICreateNewTaskAction extends Redux.Action {
-  text: string;
-}
-
-export const createNewTask = (text: string) => {
-  store.dispatch({
-    type: ActionTypes.CreateNewTask,
-    text
-  } as ICreateNewTaskAction);
+  worker.postMessage({ type: "encrypt", message });
+  // TODO: Await worker.
+  const cyphertext = "";
+  const salt = "";
+  const iv = "";
+  $.connection.agoHub.server.createNewTask(cyphertext, salt, iv);
+  store.dispatch({ type: changeComposerText, text: "" });
 };
 
 // pushErrorNotification
@@ -116,49 +121,25 @@ export const replaceItems = (items: ILink[]) => {
 
 // markItemById
 
-export const enum ActionTypes { MarkItemById = 8 }
-
-export interface IMarkItemByIdAction extends Redux.Action {
-  id: string;
-}
-
 export const markItemById = (id: string) => {
-  store.dispatch({
-    type: ActionTypes.MarkItemById,
-    id
-  } as IMarkItemByIdAction);
+  // TODO: Dispatch working…
+  // TODO: Async/await.
+  $.connection.agoHub.server.markTask(id);
+  // TODO: Dispatch finished.
 };
 
 // removeItemById
 
-export const enum ActionTypes { RemoveItemById = 9 }
-
-export interface IRemoveItemByIdAction extends Redux.Action {
-  id: string;
-}
-
 export const removeItemById = (id: string) => {
-  store.dispatch({
-    type: ActionTypes.RemoveItemById,
-    id
-  } as IRemoveItemByIdAction);
+  // TODO: Dispatch working and success/failure and call using async/await wrapped in a promise.
+  $.connection.agoHub.server.removeTask(id);
 };
 
 // swapItemsByIds
 
-export const enum ActionTypes { SwapItemsByIds = 10 }
-
-export interface ISwapItemsByIdsAction extends Redux.Action {
-  id1: string;
-  id2: string;
-}
-
 export const swapItemsByIds = (id1: string, id2: string) => {
-  store.dispatch({
-    type: ActionTypes.SwapItemsByIds,
-    id1,
-    id2
-  } as ISwapItemsByIdsAction);
+  // TODO: Dispatch working and success/failure and call using async/await wrapped in a promise.
+  $.connection.agoHub.server.swapTasks(id1, id2);
 };
 
 // electPivotItem
@@ -322,28 +303,19 @@ export const commitNewDraft = () => {
 
 export const enum ActionTypes { Login = 21 }
 
-export interface ILoginAction extends Redux.Action {
-
-}
-
 export const login = () => {
-  store.dispatch({
-    type: ActionTypes.Login
-  } as ILoginAction);
+  // TODO: Async and all that.
+  // TODO: When registering, generate a check word on client and encrypt it, save it with the user data, then verify here.
+  $.connection.agoHub.server.requestSync();
+  store.dispatch({ type: ActionTypes.Login });
 }
 
 // logout
 
 export const enum ActionTypes { Logout = 22 }
 
-export interface ILogoutAction extends Redux.Action {
-
-}
-
 export const logout = () => {
-  store.dispatch({
-    type: ActionTypes.Logout
-  } as ILogoutAction);
+  store.dispatch({ type: ActionTypes.Logout });
 }
 
 // processMessage
