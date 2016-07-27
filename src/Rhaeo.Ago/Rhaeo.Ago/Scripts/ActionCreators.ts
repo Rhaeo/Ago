@@ -6,17 +6,13 @@ import { ILink } from "./Models/ILink";
 export const enum ActionTypes { ChangeComposerText = 1 }
 
 export interface IChangeComposerTextAction extends Redux.Action {
-  payload: {
-    text: string;
-  }
+  text: string;
 }
 
 export const changeComposerText = (text: string) => {
   store.dispatch({
     type: ActionTypes.ChangeComposerText,
-    payload: {
-      text
-    }
+    text
   } as IChangeComposerTextAction);
 };
 
@@ -25,17 +21,13 @@ export const changeComposerText = (text: string) => {
 export const enum ActionTypes { CreateNewTask = 2 }
 
 export interface ICreateNewTaskAction extends Redux.Action {
-  payload: {
-    text: string;
-  }
+  text: string;
 }
 
 export const createNewTask = (text: string) => {
   store.dispatch({
     type: ActionTypes.CreateNewTask,
-    payload: {
-      text
-    }
+    text
   } as ICreateNewTaskAction);
 };
 
@@ -44,25 +36,21 @@ export const createNewTask = (text: string) => {
 export const enum ActionTypes { PushErrorNotification = 3 }
 
 export interface IPushErrorNotificationAction extends Redux.Action {
-  payload: {
-    message: string;
-    filename?: string;
-    lineno?: number;
-    colno?: number;
-    error?: Error;
-  }
+  message: string;
+  filename?: string;
+  lineno?: number;
+  colno?: number;
+  error?: Error;
 }
 
 export const pushErrorNotification = (message: string, filename?: string, lineno?: number, colno?: number, error?: Error) => {
   store.dispatch({
     type: ActionTypes.PushErrorNotification,
-    payload: {
-      message,
-      filename,
-      lineno,
-      colno,
-      error
-    }
+    message,
+    filename,
+    lineno,
+    colno,
+    error
   } as IPushErrorNotificationAction);
 };
 
@@ -71,17 +59,13 @@ export const pushErrorNotification = (message: string, filename?: string, lineno
 export const enum ActionTypes { PushTraceNotification = 4 }
 
 export interface IPushTraceNotificationAction extends Redux.Action {
-  payload: {
-    message: string;
-  }
+  message: string;
 }
 
 export const pushTraceNotification = (message: string) => {
   store.dispatch({
     type: ActionTypes.PushTraceNotification,
-    payload: {
-      message
-    }
+    message
   } as IPushTraceNotificationAction);
 };
 
@@ -90,17 +74,13 @@ export const pushTraceNotification = (message: string) => {
 export const enum ActionTypes { PushDebugNotification = 5 }
 
 export interface IPushDebugNotificationAction extends Redux.Action {
-  payload: {
-    message: string;
-  }
+  message: string;
 }
 
 export const pushDebugNotification = (message: string) => {
   store.dispatch({
     type: ActionTypes.PushDebugNotification,
-    payload: {
-      message
-    }
+    message
   } as IPushDebugNotificationAction);
 };
 
@@ -109,17 +89,13 @@ export const pushDebugNotification = (message: string) => {
 export const enum ActionTypes { SetPassphrase = 6 }
 
 export interface ISetPassphraseAction extends Redux.Action {
-  payload: {
-    passphrase: string;
-  }
+  passphrase: string;
 }
 
 export const setPassphrase = (passphrase: string) => {
   store.dispatch({
     type: ActionTypes.SetPassphrase,
-    payload: {
-      passphrase
-    }
+    passphrase
   } as ISetPassphraseAction);
 };
 
@@ -128,17 +104,13 @@ export const setPassphrase = (passphrase: string) => {
 export const enum ActionTypes { ReplaceItems = 7 }
 
 export interface IReplaceItemsAction extends Redux.Action {
-  payload: {
-    items: ILink[];
-  }
+  items: ILink[];
 }
 
 export const replaceItems = (items: ILink[]) => {
   store.dispatch({
     type: ActionTypes.ReplaceItems,
-    payload: {
-      items
-    }
+    items
   } as IReplaceItemsAction);
 };
 
@@ -147,17 +119,13 @@ export const replaceItems = (items: ILink[]) => {
 export const enum ActionTypes { MarkItemById = 8 }
 
 export interface IMarkItemByIdAction extends Redux.Action {
-  payload: {
-    id: string;
-  }
+  id: string;
 }
 
 export const markItemById = (id: string) => {
   store.dispatch({
     type: ActionTypes.MarkItemById,
-    payload: {
-      id
-    }
+    id
   } as IMarkItemByIdAction);
 };
 
@@ -166,17 +134,13 @@ export const markItemById = (id: string) => {
 export const enum ActionTypes { RemoveItemById = 9 }
 
 export interface IRemoveItemByIdAction extends Redux.Action {
-  payload: {
-    id: string;
-  }
+  id: string;
 }
 
 export const removeItemById = (id: string) => {
   store.dispatch({
     type: ActionTypes.RemoveItemById,
-    payload: {
-      id
-    }
+    id
   } as IRemoveItemByIdAction);
 };
 
@@ -185,19 +149,15 @@ export const removeItemById = (id: string) => {
 export const enum ActionTypes { SwapItemsByIds = 10 }
 
 export interface ISwapItemsByIdsAction extends Redux.Action {
-  payload: {
-    id1: string;
-    id2: string;
-  }
+  id1: string;
+  id2: string;
 }
 
 export const swapItemsByIds = (id1: string, id2: string) => {
   store.dispatch({
     type: ActionTypes.SwapItemsByIds,
-    payload: {
-      id1,
-      id2
-    }
+    id1,
+    id2
   } as ISwapItemsByIdsAction);
 };
 
@@ -206,17 +166,13 @@ export const swapItemsByIds = (id1: string, id2: string) => {
 export const enum ActionTypes { ElectPivotItem = 11 }
 
 export interface IElectPivotItemAction extends Redux.Action {
-  payload: {
-    id: string;
-  }
+  id: string;
 }
 
 export const electPivotItem = (id: string) => {
   store.dispatch({
     type: ActionTypes.ElectPivotItem,
-    payload: {
-      id
-    }
+    id
   } as IElectPivotItemAction);
 }
 
@@ -225,19 +181,15 @@ export const electPivotItem = (id: string) => {
 export const enum ActionTypes { MoveAbove = 12 }
 
 export interface IMoveAboveAction extends Redux.Action {
-  payload: {
-    id: string;
-    counterId: string;
-  }
+  id: string;
+  counterId: string;
 }
 
 export const moveAbove = (id: string, counterId: string) => {
   store.dispatch({
     type: ActionTypes.MoveAbove,
-    payload: {
-      id,
-      counterId
-    }
+    id,
+    counterId
   } as IMoveAboveAction);
 }
 
@@ -246,19 +198,15 @@ export const moveAbove = (id: string, counterId: string) => {
 export const enum ActionTypes { MoveBelow = 13 }
 
 export interface IMoveBelowAction extends Redux.Action {
-  payload: {
-    id: string;
-    counterId: string;
-  }
+  id: string;
+  counterId: string;
 }
 
 export const moveBelow = (id: string, counterId: string) => {
   store.dispatch({
     type: ActionTypes.MoveBelow,
-    payload: {
-      id,
-      counterId
-    }
+    id,
+    counterId
   } as IMoveBelowAction);
 }
 
@@ -267,19 +215,15 @@ export const moveBelow = (id: string, counterId: string) => {
 export const enum ActionTypes { UpdateAboveDraft = 14 }
 
 export interface IUpdateAboveDraftAction extends Redux.Action {
-  payload: {
-    id: string;
-    draft: string;
-  }
+  id: string;
+  draft: string;
 }
 
 export const updateAboveDraft = (id: string, draft: string) => {
   store.dispatch({
     type: ActionTypes.UpdateAboveDraft,
-    payload: {
-      id,
-      draft
-    }
+    id,
+    draft
   } as IUpdateAboveDraftAction);
 }
 
@@ -288,19 +232,15 @@ export const updateAboveDraft = (id: string, draft: string) => {
 export const enum ActionTypes { UpdateBelowDraft = 15 }
 
 export interface IUpdateBelowDraftAction extends Redux.Action {
-  payload: {
-    id: string;
-    draft: string;
-  }
+  id: string;
+  draft: string;
 }
 
 export const updateBelowDraft = (id: string, draft: string) => {
   store.dispatch({
     type: ActionTypes.UpdateBelowDraft,
-    payload: {
-      id,
-      draft
-    }
+    id,
+    draft
   } as IUpdateBelowDraftAction);
 }
 
@@ -309,17 +249,13 @@ export const updateBelowDraft = (id: string, draft: string) => {
 export const enum ActionTypes { CommitAboveDraft = 16 }
 
 export interface ICommitAboveDraftAction extends Redux.Action {
-  payload: {
-    id: string;
-  }
+  id: string;
 }
 
 export const commitAboveDraft = (id: string) => {
   store.dispatch({
     type: ActionTypes.CommitAboveDraft,
-    payload: {
-      id
-    }
+    id
   } as ICommitAboveDraftAction);
 }
 
@@ -328,17 +264,13 @@ export const commitAboveDraft = (id: string) => {
 export const enum ActionTypes { CommitBelowDraft = 17 }
 
 export interface ICommitBelowDraftAction extends Redux.Action {
-  payload: {
-    id: string;
-  }
+  id: string;
 }
 
 export const commitBelowDraft = (id: string) => {
   store.dispatch({
     type: ActionTypes.CommitBelowDraft,
-    payload: {
-      id
-    }
+    id
   } as ICommitBelowDraftAction);
 }
 
@@ -347,17 +279,13 @@ export const commitBelowDraft = (id: string) => {
 export const enum ActionTypes { UpdateItemById = 18 }
 
 export interface IUpdateItemByIdAction extends Redux.Action {
-  payload: {
-    id: string;
-  }
+  id: string;
 }
 
 export const updateItemById = (id: string) => {
   store.dispatch({
     type: ActionTypes.UpdateItemById,
-    payload: {
-      id
-    }
+    id
   } as IUpdateItemByIdAction);
 }
 
@@ -366,17 +294,13 @@ export const updateItemById = (id: string) => {
 export const enum ActionTypes { UpdateNewDraft = 19 }
 
 export interface IUpdateNewDraftAction extends Redux.Action {
-  payload: {
-    draft: string;
-  }
+  draft: string;
 }
 
 export const updateNewDraft = (draft: string) => {
   store.dispatch({
     type: ActionTypes.UpdateNewDraft,
-    payload: {
-      draft
-    }
+    draft
   } as IUpdateNewDraftAction);
 }
 
@@ -427,17 +351,13 @@ export const logout = () => {
 export const enum ActionTypes { ProcessMessage = 23 }
 
 export interface IProcessMessageAction extends Redux.Action {
-  payload: {
-    data: any;
-  }
+  data: any;
 }
 
 export const processMessage = (data: any) => {
   store.dispatch({
     type: ActionTypes.ProcessMessage,
-    payload: {
-      data
-    }
+    data
   } as IProcessMessageAction);
 };
 
@@ -446,19 +366,15 @@ export const processMessage = (data: any) => {
 export const enum ActionTypes { RequestDecryption = 24 }
 
 export interface IRequestEncryptionAction extends Redux.Action {
-  payload: {
-    cleartext: string;
-    passphrase: string;
-  }
+  cleartext: string;
+  passphrase: string;
 }
 
 export const requestEncryption = (cleartext: string, passphrase: string) => {
   store.dispatch({
     type: ActionTypes.RequestEncryption,
-    payload: {
-      cleartext,
-      passphrase
-    }
+    cleartext,
+    passphrase
   } as IRequestEncryptionAction);
 };
 
@@ -467,23 +383,19 @@ export const requestEncryption = (cleartext: string, passphrase: string) => {
 export const enum ActionTypes { RequestEncryption = 25 }
 
 export interface IRequestDecryptionAction extends Redux.Action {
-  payload: {
-    cyphertext: string;
-    passphrase: string;
-    salt: string;
-    iv: string;
-  }
+  cyphertext: string;
+  passphrase: string;
+  salt: string;
+  iv: string;
 }
 
 export const requestDecryption = (cyphertext: string, passphrase: string, salt: string, iv: string) => {
   store.dispatch({
     type: ActionTypes.RequestDecryption,
-    payload: {
-      cyphertext,
-      passphrase,
-      salt,
-      iv
-    }
+    cyphertext,
+    passphrase,
+    salt,
+    iv
   } as IRequestDecryptionAction);
 };
 
@@ -492,21 +404,17 @@ export const requestDecryption = (cyphertext: string, passphrase: string, salt: 
 export const enum ActionTypes { SaveEncryptedItem = 26 }
 
 export interface ISaveEncryptedItemAction extends Redux.Action {
-  payload: {
-    cyphertext: string;
-    salt: string;
-    iv: string;
-  }
+  cyphertext: string;
+  salt: string;
+  iv: string;
 }
 
 export const saveEncryptedItem = (cyphertext: string, salt: string, iv: string) => {
   store.dispatch({
     type: ActionTypes.SaveEncryptedItem,
-    payload: {
-      cyphertext,
-      salt,
-      iv
-    }
+    cyphertext,
+    salt,
+    iv
   } as ISaveEncryptedItemAction);
 };
 
@@ -515,19 +423,15 @@ export const saveEncryptedItem = (cyphertext: string, salt: string, iv: string) 
 export const enum ActionTypes { CacheDecryptedText = 27 }
 
 export interface ICacheDecryptedTextAction extends Redux.Action {
-  payload: {
-    id: string;
-    cleartext: string;
-  }
+  id: string;
+  cleartext: string;
 }
 
 export const cacheDecryptedText = (id: string, cleartext: string) => {
   store.dispatch({
     type: ActionTypes.CacheDecryptedText,
-    payload: {
-      id,
-      cleartext
-    }
+    id,
+    cleartext
   } as ICacheDecryptedTextAction);
 };
 
