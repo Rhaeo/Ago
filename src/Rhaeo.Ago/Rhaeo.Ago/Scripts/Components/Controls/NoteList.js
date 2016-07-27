@@ -1,4 +1,4 @@
-define(["require", "exports", "react", "./Note", "./NoteDraft", "./../../Actions/ActionCreators"], function (require, exports, React, Note_1, NoteDraft_1, ActionCreators_1) {
+define(["require", "exports", "react", "./Note", "./NoteDraft", "./../../ActionCreators"], function (require, exports, React, Note_1, NoteDraft_1, ActionCreators_1) {
     "use strict";
     // ReSharper disable once InconsistentNaming
     exports.NoteList = function (props) { return (React.createElement("div", {onMouseOut: function (event) { return ActionCreators_1.electPivotItem(null); }}, props.items.length > 0

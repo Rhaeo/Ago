@@ -1,12 +1,12 @@
 ﻿/// <reference path="./../../../Typings/react/react.d.ts"/>
 import * as React from "react";
 
-import { changeComposerText, createNewTask } from "./../Actions/ActionCreators";
+import { changeComposerText, createNewTask } from "./ActionCreators";
 import { IState } from "./../../Models/IState";
 import { Menu } from "./../Controls/Menu";
 import { Composer } from "./../Controls/Composer";
 import { NoteList } from "./../Controls/NoteList";
-import { markItemById, removeItemById, swapItemsByIds } from "./../Actions/ActionCreators";
+import { markItemById, removeItemById, swapItemsByIds } from "./ActionCreators";
 import { Navigation } from "./../Controls/Navigation";
 
 export interface IIndexPageProps extends IState {
@@ -54,7 +54,10 @@ function getSelectedTab(props: IIndexPageProps) {
 // ReSharper disable once InconsistentNaming
 export const IndexPage = (props: IIndexPageProps) => (
   <div>
-    <Menu />
+    <Menu
+      itemCount={props.items && props.items.length}
+      taskCount={0}
+      notificationCount={props.notifications && props.notifications.length} />
     <Composer text={props.newDraft} />
     <div style={{ maxWidth: 800, margin: "0 auto" }}>{getSelectedTab(props)}</div>
     <Navigation />

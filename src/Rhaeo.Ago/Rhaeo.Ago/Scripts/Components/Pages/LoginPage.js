@@ -1,4 +1,4 @@
-define(["require", "exports", "react", "./../../Actions/ActionCreators"], function (require, exports, React, ActionCreators_1) {
+define(["require", "exports", "react", "./../../ActionCreators"], function (require, exports, React, ActionCreators_1) {
     "use strict";
     var handleKeyDown = function (event) {
         if (event.keyCode === 13) {

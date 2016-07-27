@@ -12,6 +12,6 @@ define(["require", "exports", "react", "./../Controls/Menu", "./../Controls/Comp
         throw new Error("Unknown tab " + props.selectedTab + ".");
     }
     // ReSharper disable once InconsistentNaming
-    exports.IndexPage = function (props) { return (React.createElement("div", null, React.createElement(Menu_1.Menu, null), React.createElement(Composer_1.Composer, {text: props.newDraft}), React.createElement("div", {style: { maxWidth: 800, margin: "0 auto" }}, getSelectedTab(props)), React.createElement(Navigation_1.Navigation, null))); };
+    exports.IndexPage = function (props) { return (React.createElement("div", null, React.createElement(Menu_1.Menu, {itemCount: props.items && props.items.length, taskCount: 0, notificationCount: props.notifications && props.notifications.length}), React.createElement(Composer_1.Composer, {text: props.newDraft}), React.createElement("div", {style: { maxWidth: 800, margin: "0 auto" }}, getSelectedTab(props)), React.createElement(Navigation_1.Navigation, null))); };
 });
 //# sourceMappingURL=IndexPage.js.map

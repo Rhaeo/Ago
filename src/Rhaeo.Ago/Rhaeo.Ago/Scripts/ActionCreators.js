@@ -1,26 +1,24 @@
-define(["require", "exports", "./../Ago"], function (require, exports, Ago_1) {
+define(["require", "exports", "./Ago"], function (require, exports, Ago_1) {
     "use strict";
     exports.changeComposerText = function (text) {
-        var action = {
-            type: 5 /* ChangeComposerText */,
+        Ago_1.store.dispatch({
+            type: 1 /* ChangeComposerText */,
             payload: {
                 text: text
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.createNewTask = function (text) {
-        var action = {
-            type: 1 /* CreateNewTask */,
+        Ago_1.store.dispatch({
+            type: 2 /* CreateNewTask */,
             payload: {
                 text: text
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.pushErrorNotification = function (message, filename, lineno, colno, error) {
-        var action = {
-            type: 2 /* PushErrorNotification */,
+        Ago_1.store.dispatch({
+            type: 3 /* PushErrorNotification */,
             payload: {
                 message: message,
                 filename: filename,
@@ -28,227 +26,217 @@ define(["require", "exports", "./../Ago"], function (require, exports, Ago_1) {
                 colno: colno,
                 error: error
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.pushTraceNotification = function (message) {
-        var action = {
-            type: 3 /* PushTraceNotification */,
+        Ago_1.store.dispatch({
+            type: 4 /* PushTraceNotification */,
             payload: {
                 message: message
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.pushDebugNotification = function (message) {
-        var action = {
-            type: 4 /* PushDebugNotification */,
+        Ago_1.store.dispatch({
+            type: 5 /* PushDebugNotification */,
             payload: {
                 message: message
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.setPassphrase = function (passphrase) {
-        var action = {
-            type: 0 /* SetPassphrase */,
+        Ago_1.store.dispatch({
+            type: 6 /* SetPassphrase */,
             payload: {
                 passphrase: passphrase
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.replaceItems = function (items) {
-        var action = {
-            type: 6 /* ReplaceItems */,
+        Ago_1.store.dispatch({
+            type: 7 /* ReplaceItems */,
             payload: {
                 items: items
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.markItemById = function (id) {
-        var action = {
-            type: 9 /* MarkItemById */,
+        Ago_1.store.dispatch({
+            type: 8 /* MarkItemById */,
             payload: {
                 id: id
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.removeItemById = function (id) {
-        var action = {
-            type: 8 /* RemoveItemById */,
+        Ago_1.store.dispatch({
+            type: 9 /* RemoveItemById */,
             payload: {
                 id: id
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.swapItemsByIds = function (id1, id2) {
-        var action = {
-            type: 7 /* SwapItemsByIds */,
+        Ago_1.store.dispatch({
+            type: 10 /* SwapItemsByIds */,
             payload: {
                 id1: id1,
                 id2: id2
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.electPivotItem = function (id) {
-        var action = {
-            type: 10 /* ElectPivotItem */,
+        Ago_1.store.dispatch({
+            type: 11 /* ElectPivotItem */,
             payload: {
                 id: id
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.moveAbove = function (id, counterId) {
-        var action = {
-            type: 11 /* MoveAbove */,
+        Ago_1.store.dispatch({
+            type: 12 /* MoveAbove */,
             payload: {
                 id: id,
                 counterId: counterId
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.moveBelow = function (id, counterId) {
-        var action = {
-            type: 12 /* MoveBelow */,
+        Ago_1.store.dispatch({
+            type: 13 /* MoveBelow */,
             payload: {
                 id: id,
                 counterId: counterId
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.updateAboveDraft = function (id, draft) {
-        var action = {
-            type: 15 /* UpdateAboveDraft */,
+        Ago_1.store.dispatch({
+            type: 14 /* UpdateAboveDraft */,
             payload: {
                 id: id,
                 draft: draft
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.updateBelowDraft = function (id, draft) {
-        var action = {
-            type: 14 /* UpdateBelowDraft */,
+        Ago_1.store.dispatch({
+            type: 15 /* UpdateBelowDraft */,
             payload: {
                 id: id,
                 draft: draft
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.commitAboveDraft = function (id) {
-        var action = {
-            type: 17 /* CommitAboveDraft */,
+        Ago_1.store.dispatch({
+            type: 16 /* CommitAboveDraft */,
             payload: {
                 id: id
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.commitBelowDraft = function (id) {
-        var action = {
-            type: 18 /* CommitBelowDraft */,
+        Ago_1.store.dispatch({
+            type: 17 /* CommitBelowDraft */,
             payload: {
                 id: id
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.updateItemById = function (id) {
-        var action = {
-            type: 13 /* UpdateItemById */,
+        Ago_1.store.dispatch({
+            type: 18 /* UpdateItemById */,
             payload: {
                 id: id
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.updateNewDraft = function (draft) {
-        var action = {
-            type: 16 /* UpdateNewDraft */,
+        Ago_1.store.dispatch({
+            type: 19 /* UpdateNewDraft */,
             payload: {
                 draft: draft
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.commitNewDraft = function () {
-        var action = {
-            type: 19 /* CommitNewDraft */
-        };
-        Ago_1.store.dispatch(action);
+        Ago_1.store.dispatch({
+            type: 20 /* CommitNewDraft */
+        });
     };
     exports.login = function () {
-        var action = {
-            type: 20 /* Login */
-        };
-        Ago_1.store.dispatch(action);
+        Ago_1.store.dispatch({
+            type: 21 /* Login */
+        });
     };
     exports.logout = function () {
-        var action = {
-            type: 21 /* Logout */
-        };
-        Ago_1.store.dispatch(action);
+        Ago_1.store.dispatch({
+            type: 22 /* Logout */
+        });
     };
     exports.processMessage = function (data) {
-        var action = {
-            type: 22 /* ProcessMessage */,
+        Ago_1.store.dispatch({
+            type: 23 /* ProcessMessage */,
             payload: {
                 data: data
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.requestEncryption = function (cleartext, passphrase) {
-        var action = {
-            type: 24 /* RequestEncryption */,
+        Ago_1.store.dispatch({
+            type: 25 /* RequestEncryption */,
             payload: {
                 cleartext: cleartext,
                 passphrase: passphrase
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.requestDecryption = function (cyphertext, passphrase, salt, iv) {
-        var action = {
-            type: 23 /* RequestDecryption */,
+        Ago_1.store.dispatch({
+            type: 24 /* RequestDecryption */,
             payload: {
                 cyphertext: cyphertext,
                 passphrase: passphrase,
                 salt: salt,
                 iv: iv
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.saveEncryptedItem = function (cyphertext, salt, iv) {
-        var action = {
-            type: 25 /* SaveEncryptedItem */,
+        Ago_1.store.dispatch({
+            type: 26 /* SaveEncryptedItem */,
             payload: {
                 cyphertext: cyphertext,
                 salt: salt,
                 iv: iv
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
     };
     exports.cacheDecryptedText = function (id, cleartext) {
-        var action = {
-            type: 26 /* CacheDecryptedText */,
+        Ago_1.store.dispatch({
+            type: 27 /* CacheDecryptedText */,
             payload: {
                 id: id,
                 cleartext: cleartext
             }
-        };
-        Ago_1.store.dispatch(action);
+        });
+    };
+    exports.navigateToItemListPage = function () {
+        Ago_1.store.dispatch({
+            type: 28 /* NavigateToItemListPage */
+        });
+    };
+    exports.navigateToTaskListPage = function () {
+        Ago_1.store.dispatch({
+            type: 29 /* NavigateToTaskListPage */
+        });
+    };
+    exports.navigateToNotificationListPage = function () {
+        Ago_1.store.dispatch({
+            type: 30 /* NavigateToNotificationListPage */
+        });
     };
 });
 //# sourceMappingURL=ActionCreators.js.map

@@ -1,7 +1,7 @@
 ﻿/// <reference path="./../../../Typings/react/react.d.ts"/>
 import * as React from "react";
 
-import { updateNewDraft, commitNewDraft } from "./../../Actions/ActionCreators";
+import { updateNewDraft, commitNewDraft } from "./../../ActionCreators";
 
 export interface INoteDraftProps {
   value: string;

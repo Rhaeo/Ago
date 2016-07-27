@@ -6,11 +6,13 @@ import * as ReactDOM from "react-dom";
 import * as Redux from "redux";
 
 import { $ } from "./Messages/SignalR";
-import { IAgoProps, Ago } from "./Components/Ago";
-import { agoReducer } from "./Reducers/AgoReducer";
-import { pushErrorNotification, pushTraceNotification, pushDebugNotification, replaceItems, logout, saveEncryptedItem, cacheDecryptedText } from "./Actions/ActionCreators";
+import { Ago } from "./Components/Ago";
+import { agoReducer } from "./AgoReducer";
+import { pushErrorNotification, pushTraceNotification, pushDebugNotification, replaceItems, logout, saveEncryptedItem, cacheDecryptedText } from "./ActionCreators";
+import { IState } from "./Models/IState";
 
-const initialState: IAgoProps = {
+// TODO: Replace with optional values on the reducer.
+const initialState: IState = {
   passphrase: "",
   items: [],
   notifications: [],
@@ -19,7 +21,8 @@ const initialState: IAgoProps = {
   belowDrafts: {},
   cleartexts: {},
   selectedItemId: null,
-  isLoggedIn: false
+  isLoggedIn: false,
+  selectedTab: "Tasks"
 };
 
 export const store = Redux.createStore(agoReducer, initialState);

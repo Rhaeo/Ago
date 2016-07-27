@@ -1,5 +1,6 @@
-define(["require", "exports", "react", "react-dom", "redux", "./Messages/SignalR", "./Components/Ago", "./Reducers/AgoReducer", "./Actions/ActionCreators"], function (require, exports, React, ReactDOM, Redux, SignalR_1, Ago_1, AgoReducer_1, ActionCreators_1) {
+define(["require", "exports", "react", "react-dom", "redux", "./Messages/SignalR", "./Components/Ago", "./AgoReducer", "./ActionCreators"], function (require, exports, React, ReactDOM, Redux, SignalR_1, Ago_1, AgoReducer_1, ActionCreators_1) {
     "use strict";
+    // TODO: Replace with optional values on the reducer.
     var initialState = {
         passphrase: "",
         items: [],
@@ -9,7 +10,8 @@ define(["require", "exports", "react", "react-dom", "redux", "./Messages/SignalR
         belowDrafts: {},
         cleartexts: {},
         selectedItemId: null,
-        isLoggedIn: false
+        isLoggedIn: false,
+        selectedTab: "Tasks"
     };
     exports.store = Redux.createStore(AgoReducer_1.agoReducer, initialState);
     var render = function () {

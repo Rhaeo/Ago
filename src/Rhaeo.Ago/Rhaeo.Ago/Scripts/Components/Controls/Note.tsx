@@ -1,7 +1,7 @@
 ﻿/// <reference path="./../../../Typings/react/react.d.ts"/>
 import * as React from "react";
 import { IItem } from "./../Models/IItem";
-import { electPivotItem, moveAbove, moveBelow, updateAboveDraft, commitAboveDraft, updateBelowDraft, commitBelowDraft, removeItemById } from "./../../Actions/ActionCreators";
+import { electPivotItem, moveAbove, moveBelow, updateAboveDraft, commitAboveDraft, updateBelowDraft, commitBelowDraft, removeItemById } from "./../../ActionCreators";
 
 export interface INoteProps {
   id: string;

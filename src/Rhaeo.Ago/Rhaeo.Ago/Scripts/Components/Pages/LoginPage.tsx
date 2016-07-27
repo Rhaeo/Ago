@@ -1,7 +1,7 @@
 ﻿/// <reference path="./../../../Typings/react/react.d.ts"/>
 import * as React from "react";
 
-import { setPassphrase, login } from "./../../Actions/ActionCreators";
+import { setPassphrase, login } from "./../../ActionCreators";
 
 export interface ILoginPageProps {
 }

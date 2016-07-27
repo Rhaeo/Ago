@@ -4,7 +4,7 @@ import * as React from "react";
 import { ILink } from "./../../Models/ILink";
 import { Note } from "./Note";
 import { NoteDraft } from "./NoteDraft";
-import { electPivotItem } from "./../../Actions/ActionCreators";
+import { electPivotItem } from "./../../ActionCreators";
 
 export interface INoteProps {
   items: ILink[];

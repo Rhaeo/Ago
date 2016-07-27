@@ -1,7 +1,7 @@
 ﻿/// <reference path="./../../../Typings/react/react.d.ts"/>
 import * as React from "react";
 
-import { changeComposerText, createNewTask } from "./../../Actions/ActionCreators";
+import { changeComposerText, createNewTask } from "./../../ActionCreators";
 
 export interface IComposerProps {
     text: string;

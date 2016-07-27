@@ -1,4 +1,4 @@
-define(["require", "exports", "./../Messages/SignalR", "./../Ago"], function (require, exports, SignalR_1, Ago_1) {
+define(["require", "exports", "./Messages/SignalR", "./Ago"], function (require, exports, SignalR_1, Ago_1) {
     "use strict";
     exports.agoReducer = function (state, action) {
         state = Object.assign({}, state);
@@ -7,13 +7,13 @@ define(["require", "exports", "./../Messages/SignalR", "./../Ago"], function (re
                 {
                     break;
                 }
-            case 5 /* ChangeComposerText */:
+            case 1 /* ChangeComposerText */:
                 {
                     var payload = action.payload;
                     state.newDraft = payload.text;
                     break;
                 }
-            case 1 /* CreateNewTask */:
+            case 2 /* CreateNewTask */:
                 {
                     var payload = action.payload;
                     var message = {
@@ -29,31 +29,31 @@ define(["require", "exports", "./../Messages/SignalR", "./../Ago"], function (re
                     state.newDraft = "";
                     break;
                 }
-            case 2 /* PushErrorNotification */:
+            case 3 /* PushErrorNotification */:
                 {
                     var payload = action.payload;
                     state.notifications.unshift({ message: payload.message });
                     break;
                 }
-            case 4 /* PushDebugNotification */:
+            case 5 /* PushDebugNotification */:
                 {
                     var payload = action.payload;
                     state.notifications.unshift({ message: payload.message });
                     break;
                 }
-            case 3 /* PushTraceNotification */:
+            case 4 /* PushTraceNotification */:
                 {
                     var payload = action.payload;
                     state.notifications.unshift({ message: payload.message });
                     break;
                 }
-            case 0 /* SetPassphrase */:
+            case 6 /* SetPassphrase */:
                 {
                     var payload = action.payload;
                     state.passphrase = payload.passphrase;
                     break;
                 }
-            case 6 /* ReplaceItems */:
+            case 7 /* ReplaceItems */:
                 {
                     var payload = action.payload;
                     for (var _i = 0, _a = payload.items; _i < _a.length; _i++) {
@@ -76,56 +76,56 @@ define(["require", "exports", "./../Messages/SignalR", "./../Ago"], function (re
                     state.items = payload.items;
                     break;
                 }
-            case 9 /* MarkItemById */:
+            case 8 /* MarkItemById */:
                 {
                     var payload = action.payload;
                     SignalR_1.$.connection.agoHub.server.markTask(payload.id);
                     break;
                 }
-            case 8 /* RemoveItemById */:
+            case 9 /* RemoveItemById */:
                 {
                     var payload = action.payload;
                     SignalR_1.$.connection.agoHub.server.removeTask(payload.id);
                     break;
                 }
-            case 7 /* SwapItemsByIds */:
+            case 10 /* SwapItemsByIds */:
                 {
                     var payload = action.payload;
                     SignalR_1.$.connection.agoHub.server.swapTasks(payload.id1, payload.id2);
                     break;
                 }
-            case 10 /* ElectPivotItem */:
+            case 11 /* ElectPivotItem */:
                 {
                     var payload = action.payload;
                     state.selectedItemId = payload.id;
                     break;
                 }
-            case 11 /* MoveAbove */:
+            case 12 /* MoveAbove */:
                 {
                     var payload = action.payload;
                     break;
                 }
-            case 12 /* MoveBelow */:
+            case 13 /* MoveBelow */:
                 {
                     var payload = action.payload;
                     break;
                 }
-            case 13 /* UpdateItemById */:
+            case 18 /* UpdateItemById */:
                 {
                     var payload = action.payload;
                     break;
                 }
-            case 14 /* UpdateBelowDraft */:
+            case 15 /* UpdateBelowDraft */:
                 {
                     var payload = action.payload;
                     break;
                 }
-            case 15 /* UpdateAboveDraft */:
+            case 14 /* UpdateAboveDraft */:
                 {
                     var payload = action.payload;
                     break;
                 }
-            case 20 /* Login */:
+            case 21 /* Login */:
                 {
                     //const payload = (action as Actions.ILoginAction).payload;
                     // TODO: When registering, generate a check word on client and encrypt it, save it with the user data, then verify here.
@@ -133,28 +133,28 @@ define(["require", "exports", "./../Messages/SignalR", "./../Ago"], function (re
                     SignalR_1.$.connection.agoHub.server.requestSync();
                     break;
                 }
-            case 21 /* Logout */:
+            case 22 /* Logout */:
                 {
                     state.passphrase = null;
                     state.isLoggedIn = false;
                     state.cleartexts = {};
                     break;
                 }
-            case 24 /* RequestEncryption */:
+            case 25 /* RequestEncryption */:
                 {
                     break;
                 }
-            case 23 /* RequestDecryption */:
+            case 24 /* RequestDecryption */:
                 {
                     break;
                 }
-            case 25 /* SaveEncryptedItem */:
+            case 26 /* SaveEncryptedItem */:
                 {
                     var payload = action.payload;
                     SignalR_1.$.connection.agoHub.server.createNewTask(payload.cyphertext, payload.salt, payload.iv);
                     break;
                 }
-            case 26 /* CacheDecryptedText */:
+            case 27 /* CacheDecryptedText */:
                 {
                     var payload = action.payload;
                     state.cleartexts[payload.id] = payload.cleartext;

@@ -1,4 +1,4 @@
-define(["require", "exports", "react", "./../../Actions/ActionCreators"], function (require, exports, React, ActionCreators_1) {
+define(["require", "exports", "react", "./../../ActionCreators"], function (require, exports, React, ActionCreators_1) {
     "use strict";
     var handleAboveChange = function (event, id) { return ActionCreators_1.updateAboveDraft(id, event.currentTarget.value); };
     var handleAboveKeyDown = function (event, id) {
