@@ -328,7 +328,7 @@
     <TypeScriptCompile Include="Scripts\Polyfills\Promise.ts" />
     <TypeScriptCompile Include="Scripts\Polyfills\Window.ts" />
     <TypeScriptCompile Include="Scripts\AgoReducer.ts" />
-    <TypeScriptCompile Include="Scripts\Workers\AgoWorker.ts" />
+    <TypeScriptCompile Include="Scripts\Workers\CryptoWorker.ts" />
     <TypeScriptCompile Include="Typings\promise\promise.d.ts" />
     <TypeScriptCompile Include="Typings\react\react-0.13.3.d.ts" />
     <TypeScriptCompile Include="Typings\react\react-addons-create-fragment.d.ts" />

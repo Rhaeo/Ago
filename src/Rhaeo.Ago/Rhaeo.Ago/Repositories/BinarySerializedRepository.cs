@@ -11,11 +11,6 @@ namespace Rhaeo.Ago.Repositories
 {
     public sealed class BinarySerializedRepository : IRepository
     {
-        // Events:
-
-        public event EventHandler Reloaded;
-
-
         // Fields:
 
         private static readonly string FilePath = HostingEnvironment.MapPath("~/App_Data/state.bin");
@@ -115,8 +110,6 @@ namespace Rhaeo.Ago.Repositories
             {
                 state = new State();
             }
-
-            Reloaded?.Invoke(this, EventArgs.Empty);
         }
 
         public void PersistTask()

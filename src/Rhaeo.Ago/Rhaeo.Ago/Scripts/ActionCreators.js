@@ -14,21 +14,14 @@ define(["require", "exports", "./Messages/SignalR", "./Ago", "./Helpers/AsyncCry
             text: text
         });
     };
-    exports.createNewTask = (text, passphrase) => {
-        const message = {
-            cleartext: text,
-            passphrase: passphrase,
-            startMessage: { type: "CreateNewTaskEncryptStart" },
-            endMessage: { type: "CreateNewTaskEncryptEnd" }
-        };
-        //worker.postMessage({ type: "encrypt", message });
-        // TODO: Await worker.
-        const cyphertext = "";
-        const salt = "";
-        const iv = "";
-        SignalR_1.$.connection.agoHub.server.createNewTask(cyphertext, salt, iv);
-        Ago_1.store.dispatch({ type: exports.changeComposerText, text: "" });
-    };
+    function encryptAndSubmit(cleartext, passphrase) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const encryption = yield AsyncCrypto_1.AsyncCrypto.encrypt(cleartext, passphrase);
+            yield SignalR_1.createNewTask(encryption.cyphertext, encryption.salt, encryption.iv);
+        });
+    }
+    exports.encryptAndSubmit = encryptAndSubmit;
+    ;
     exports.pushErrorNotification = (message, filename, lineno, colno, error) => {
         Ago_1.store.dispatch({
             type: 1 /* PushErrorNotification */,

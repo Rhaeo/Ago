@@ -1,4 +1,4 @@
-﻿import { $ } from "./Messages/SignalR"; // TODO: Promisify.
+﻿import { $, createNewTask as persistNewTask } from "./Messages/SignalR"; // TODO: Promisify.
 import { store } from "./Ago";
 import { ILink } from "./Models/ILink";
 import {
@@ -14,21 +14,9 @@ export const changeComposerText = (text: string) => {
   });
 };
 
-export const createNewTask = (text: string, passphrase: string) => {
-  const message = {
-    cleartext: text,
-    passphrase: passphrase,
-    startMessage: { type: "CreateNewTaskEncryptStart" },
-    endMessage: { type: "CreateNewTaskEncryptEnd" }
-  };
-
-  //worker.postMessage({ type: "encrypt", message });
-  // TODO: Await worker.
-  const cyphertext = "";
-  const salt = "";
-  const iv = "";
-  $.connection.agoHub.server.createNewTask(cyphertext, salt, iv);
-  store.dispatch({ type: changeComposerText, text: "" });
+export async function encryptAndSubmit(cleartext: string, passphrase: string) {
+  const encryption = await AsyncCrypto.encrypt(cleartext, passphrase);
+  await persistNewTask(encryption.cyphertext, encryption.salt, encryption.iv);
 };
 
 export const pushErrorNotification = (message: string, filename?: string, lineno?: number, colno?: number, error?: Error) => {

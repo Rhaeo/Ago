@@ -5,7 +5,7 @@
   const encryptCache: { [key: string]: IEncryptionResponse } = {};
   const decryptCacheKeys: { [id: number]: string } = {};
   const decryptCache: { [key: string]: IDecryptionResponse } = {};
-  const worker = new Worker("/Scripts/Workers/AgoWorker.js");
+  const worker = new Worker("/Scripts/Workers/CryptoWorker.js");
 
   worker.addEventListener("message",
     event => {

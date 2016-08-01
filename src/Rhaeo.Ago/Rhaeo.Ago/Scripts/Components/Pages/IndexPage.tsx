@@ -1,12 +1,11 @@
 ﻿/// <reference path="./../../../Typings/react/react.d.ts"/>
 import * as React from "react";
 
-import { changeComposerText, createNewTask } from "./ActionCreators";
 import { IState } from "./../../Models/IState";
 import { Menu } from "./../Controls/Menu";
 import { Composer } from "./../Controls/Composer";
 import { NoteList } from "./../Controls/NoteList";
-import { markItemById, removeItemById, swapItemsByIds } from "./ActionCreators";
+import { changeComposerText, encryptAndSubmit, markItemById, removeItemById, swapItemsByIds } from "./../../ActionCreators";
 import { Navigation } from "./../Controls/Navigation";
 import { TaskListPage } from "./TaskListPage";
 
@@ -29,7 +28,10 @@ function getSelectedTab(props: IIndexPageProps) {
             passphrase={props.passphrase} />
         </div>);
     case "Tasks":
-      return <TaskListPage />;
+      return (
+        <TaskListPage
+          passphrase={props.passphrase}
+          encryptAndSubmit={(draft, passphrase) => encryptAndSubmit(draft, passphrase) } />);
     case "Notifications":
       return (
         <div>

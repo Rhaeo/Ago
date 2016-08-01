@@ -8,7 +8,7 @@ define(["require", "exports"], function (require, exports) {
         const encryptCache = {};
         const decryptCacheKeys = {};
         const decryptCache = {};
-        const worker = new Worker("/Scripts/Workers/AgoWorker.js");
+        const worker = new Worker("/Scripts/Workers/CryptoWorker.js");
         worker.addEventListener("message", event => {
             const message = event.data;
             switch (message.type) {
