@@ -7,14 +7,14 @@ self.addEventListener("message", event => {
             {
                 const message2 = message;
                 const encryption = encrypt(message2.cleartext, message2.passphrase);
-                self.postMessage(Object.assign({ type: 1 /* EncryptionResponse */, id: message.id }, encryption));
+                self.postMessage(Object.assign({ type: 0 /* EncryptionResponse */, id: message.id }, encryption));
                 break;
             }
-        case 2 /* DecryptionRequest */:
+        case 1 /* DecryptionRequest */:
             {
                 const message2 = message;
                 const decryption = decrypt(message2.cyphertext, message2.passphrase, message2.salt, message2.iv);
-                self.postMessage(Object.assign({ type: 3 /* DecryptionResponse */, id: message.id }, decryption));
+                self.postMessage(Object.assign({ type: 1 /* DecryptionResponse */, id: message.id }, decryption));
                 break;
             }
         default:

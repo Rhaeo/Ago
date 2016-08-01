@@ -1,3 +1,3 @@
-﻿interface IEncryptionRequestMessage extends IEncryptionRequest, IMessage {
+﻿interface IEncryptionRequestMessage extends IEncryptionRequest, IOutboundMessage {
   
 }

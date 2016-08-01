@@ -3,20 +3,20 @@ importScripts("/Scripts/Libraries/crypto-js-rollups-aes@3.1.2.min.js", "/Scripts
 
 self.addEventListener("message",
   event => {
-    const message = event.data as IMessage;
+    const message = event.data as IOutboundMessage;
     switch (message.type) {
-      case MessageTypes.EncryptionRequest:
+      case OutboundMessageTypes.EncryptionRequest:
         {
           const message2 = message as IEncryptionRequestMessage;
           const encryption = encrypt(message2.cleartext, message2.passphrase);
-          self.postMessage(Object.assign({ type: MessageTypes.EncryptionResponse, id: message.id }, encryption));
+          self.postMessage(Object.assign({ type: InboundMessageTypes.EncryptionResponse, id: message.id }, encryption));
           break;
         }
-      case MessageTypes.DecryptionRequest:
+      case OutboundMessageTypes.DecryptionRequest:
         {
           const message2 = message as IDecryptionRequestMessage;
           const decryption = decrypt(message2.cyphertext, message2.passphrase, message2.salt, message2.iv);
-          self.postMessage(Object.assign({ type: MessageTypes.DecryptionResponse, id: message.id }, decryption));
+          self.postMessage(Object.assign({ type: InboundMessageTypes.DecryptionResponse, id: message.id }, decryption));
           break;
         }
       default:
@@ -31,7 +31,7 @@ const iterations = 100;
 // ReSharper disable once InconsistentNaming
 declare const CryptoJS: any;
 
-function encrypt(cleartext: string, passphrase: string): IEncryption {
+function encrypt(cleartext: string, passphrase: string): IEncryptionResponse {
   const salt = CryptoJS.lib.WordArray.random(128 / 8);
   const key = CryptoJS.PBKDF2(passphrase, salt, { keySize: 512 / 32, iterations });
   const iv = CryptoJS.lib.WordArray.random(128 / 8);
@@ -40,7 +40,7 @@ function encrypt(cleartext: string, passphrase: string): IEncryption {
   return { cyphertext: crypto.toString(), salt: salt.toString(), iv: iv.toString() };
 };
 
-function decrypt(cyphertext: string, passphrase: string, salt: string, iv: string): IDecryption {
+function decrypt(cyphertext: string, passphrase: string, salt: string, iv: string): IDecryptionResponse {
   const key = CryptoJS.PBKDF2(passphrase, CryptoJS.enc.Hex.parse(salt), { keySize: 512 / 32, iterations });
   const iv2 = CryptoJS.enc.Hex.parse(iv);
   const options = { iv: iv2, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 };

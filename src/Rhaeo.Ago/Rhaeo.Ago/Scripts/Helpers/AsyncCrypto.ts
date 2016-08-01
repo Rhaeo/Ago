@@ -2,34 +2,34 @@
   let idCounter = 0;
   const deferreds: { [id: number]: IDeferred<any> } = {};
   const encryptCacheKeys: { [id: number]: string } = {};
-  const encryptCache: { [key: string]: IEncryption } = {};
+  const encryptCache: { [key: string]: IEncryptionResponse } = {};
   const decryptCacheKeys: { [id: number]: string } = {};
-  const decryptCache: { [key: string]: IDecryption } = {};
+  const decryptCache: { [key: string]: IDecryptionResponse } = {};
   const worker = new Worker("/Scripts/Workers/AgoWorker.js");
 
   worker.addEventListener("message",
     event => {
-      const message = event.data as IMessage;
+      const message = event.data as IInboundMessage;
       switch (message.type) {
-        case MessageTypes.EncryptionResponse:
+        case InboundMessageTypes.EncryptionResponse:
           {
             const id = message.id;
             delete message.type;
             delete message.id;
-            const deferred = deferreds[id] as IDeferred<IEncryption>;
-            const encryption = ((message as IEncryptionMessage) as IEncryption);
+            const deferred = deferreds[id] as IDeferred<IEncryptionResponse>;
+            const encryption = ((message as IEncryptionResponseMessage) as IEncryptionResponse);
             encryptCache[encryptCacheKeys[id]] = encryption;
             delete encryptCacheKeys[id];
             deferred.resolve(encryption);
             break;
           }
-        case MessageTypes.DecryptionResponse:
+        case InboundMessageTypes.DecryptionResponse:
           {
             const id = message.id;
             delete message.type;
             delete message.id;
-            const deferred = deferreds[id] as IDeferred<IDecryption>;
-            const decryption = ((message as IDecryptionMessage) as IDecryption);
+            const deferred = deferreds[id] as IDeferred<IDecryptionResponse>;
+            const decryption = ((message as IDecryptionResponseMessage) as IDecryptionResponse);
             decryptCache[decryptCacheKeys[id]] = decryption;
             delete decryptCacheKeys[id];
             deferred.resolve(decryption);
@@ -57,8 +57,8 @@
 
     const id = idCounter++;
     encryptCacheKeys[id] = key;
-    const deferred = makeDeferred<IEncryption>(id);
-    worker.postMessage({ type: MessageTypes.EncryptionRequest, id, cleartext, passphrase } as IEncryptionRequestMessage);
+    const deferred = makeDeferred<IEncryptionResponse>(id);
+    worker.postMessage({ type: OutboundMessageTypes.EncryptionRequest, id, cleartext, passphrase } as IEncryptionRequestMessage);
     return deferred.promise;
   }
 
@@ -70,8 +70,8 @@
 
     const id = idCounter++;
     decryptCacheKeys[id] = key;
-    const deferred = makeDeferred<IDecryption>(id);
-    worker.postMessage({ type: MessageTypes.DecryptionRequest, id, cyphertext, passphrase, salt, iv } as IDecryptionRequestMessage);
+    const deferred = makeDeferred<IDecryptionResponse>(id);
+    worker.postMessage({ type: OutboundMessageTypes.DecryptionRequest, id, cyphertext, passphrase, salt, iv } as IDecryptionRequestMessage);
     return deferred.promise;
   }
 }

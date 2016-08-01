@@ -1,3 +1,3 @@
-﻿interface IDecryption {
+﻿interface IDecryptionResponse {
   cleartext: string;
 }

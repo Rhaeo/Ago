@@ -12,7 +12,7 @@ define(["require", "exports"], function (require, exports) {
         worker.addEventListener("message", event => {
             const message = event.data;
             switch (message.type) {
-                case 1 /* EncryptionResponse */:
+                case 0 /* EncryptionResponse */:
                     {
                         const id = message.id;
                         delete message.type;
@@ -24,7 +24,7 @@ define(["require", "exports"], function (require, exports) {
                         deferred.resolve(encryption);
                         break;
                     }
-                case 3 /* DecryptionResponse */:
+                case 1 /* DecryptionResponse */:
                     {
                         const id = message.id;
                         delete message.type;
@@ -65,7 +65,7 @@ define(["require", "exports"], function (require, exports) {
             const id = idCounter++;
             decryptCacheKeys[id] = key;
             const deferred = makeDeferred(id);
-            worker.postMessage({ type: 2 /* DecryptionRequest */, id: id, cyphertext: cyphertext, passphrase: passphrase, salt: salt, iv: iv });
+            worker.postMessage({ type: 1 /* DecryptionRequest */, id: id, cyphertext: cyphertext, passphrase: passphrase, salt: salt, iv: iv });
             return deferred.promise;
         };
     })(AsyncCrypto = exports.AsyncCrypto || (exports.AsyncCrypto = {}));

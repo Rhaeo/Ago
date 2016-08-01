@@ -1,3 +1,3 @@
-﻿interface IEncryptionMessage extends IMessage, IEncryption {
+﻿interface IEncryptionResponseMessage extends IEncryptionResponse, IInboundMessage {
   
 }
