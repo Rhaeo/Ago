@@ -8,6 +8,7 @@ import { Composer } from "./../Controls/Composer";
 import { NoteList } from "./../Controls/NoteList";
 import { markItemById, removeItemById, swapItemsByIds } from "./ActionCreators";
 import { Navigation } from "./../Controls/Navigation";
+import { TaskListPage } from "./TaskListPage";
 
 export interface IIndexPageProps extends IState {
 }
@@ -28,13 +29,7 @@ function getSelectedTab(props: IIndexPageProps) {
             passphrase={props.passphrase} />
         </div>);
     case "Tasks":
-      return (
-        <div>
-          <h2>Tasks</h2>
-          <ul>
-
-          </ul>
-        </div>);
+      return <TaskListPage />;
     case "Notifications":
       return (
         <div>

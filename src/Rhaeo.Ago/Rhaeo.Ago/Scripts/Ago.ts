@@ -8,7 +8,7 @@ import * as Redux from "redux";
 import { $ } from "./Messages/SignalR";
 import { Ago } from "./Components/Ago";
 import { agoReducer } from "./AgoReducer";
-import { pushErrorNotification, pushTraceNotification, pushDebugNotification, replaceItems, logout, saveEncryptedItem, cacheDecryptedText } from "./ActionCreators";
+import { pushErrorNotification, pushTraceNotification, pushDebugNotification, replaceItems, logout } from "./ActionCreators";
 import { IState } from "./Models/IState";
 
 export const store = Redux.createStore(agoReducer); // TODO: Redux dev tools.
@@ -30,51 +30,11 @@ window.onblur = (event: FocusEvent) => {
 
 const listen = () => {
   $.connection.agoHub.client.trace = (message) => pushTraceNotification(message);
-
-  $.connection.agoHub.client.pong = (payload) => pushTraceNotification(`PONG invoked on server ${payload}`);
-
   $.connection.agoHub.client.sync = (items) => replaceItems(items);
 };
 
 $(() => {
   listen();
-  $.connection.hub.start().done(() => {
-    pushDebugNotification("SignalR OK.");
-    $.connection.agoHub.server.ping(Math.random())
-      .done(payload => pushDebugNotification(`PING succeeded ${JSON.stringify(payload)}`))
-      .fail(error => pushErrorNotification(`PING succeeded ${JSON.stringify(error)}`));
-    pushDebugNotification("PING invoked on client");
-  });
+  $.connection.hub.start();
 });
 
-export const worker = new Worker("/Scripts/Workers/AgoWorker.js");
-worker.onmessage = (message) => {
-  switch (message.data.type) {
-    case "CreateNewTaskEncryptStart":
-      {
-        // TODO: Spinner.
-        break;
-      }
-    case "CreateNewTaskEncryptEnd":
-      {
-        saveEncryptedItem(message.data.cyphertext, message.data.salt, message.data.iv);
-        break;
-      }
-    case "ReplaceItemDecryptStart":
-      {
-        // TODO: Spinner in state.cleartexts[isInProgress/value].
-        break;
-      }
-    case "ReplaceItemDecryptEnd":
-      {
-        cacheDecryptedText(message.data.id, message.data.cleartext);
-        break;
-      }
-    default:
-      {
-        throw new Error(`Unknown message type ${message.data.type}. ${JSON.stringify(message.data)}`);
-      }
-  }
-};
-
-worker.onerror = (error) => pushErrorNotification(`Worker error ${error.type}`);

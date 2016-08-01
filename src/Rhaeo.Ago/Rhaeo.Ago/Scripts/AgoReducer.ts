@@ -1,23 +1,7 @@
 ﻿import * as Redux from "redux";
 import { IState } from "./Models/IState";
 import { store } from "./Ago";
-import {
-  ActionTypes,
-  IChangeComposerTextAction,
-  ISaveEncryptedItemAction,
-  IUpdateAboveDraftAction,
-  IUpdateBelowDraftAction,
-  IPushErrorNotificationAction,
-  IPushDebugNotificationAction,
-  IPushTraceNotificationAction,
-  ISetPassphraseAction,
-  IReplaceItemsAction,
-  IElectPivotItemAction,
-  IMoveAboveAction,
-  IMoveBelowAction,
-  IUpdateItemByIdAction,
-  ICacheDecryptedTextAction
-} from "./ActionCreators";
+import { ActionTypes } from "./ActionTypes";
 
 export const agoReducer: Redux.Reducer<IState> = (originalState: IState = {
   passphrase: "",
@@ -36,24 +20,23 @@ export const agoReducer: Redux.Reducer<IState> = (originalState: IState = {
 
   const branches = {
     ["@@redux/INIT"]: (state, action) => state,
-    [ActionTypes.CacheDecryptedText]: (state: IState, action: ICacheDecryptedTextAction) => state,
 
-    [ActionTypes.ChangeComposerText]: (state: IState, action: IChangeComposerTextAction) =>
+    [ActionTypes.ChangeComposerText]: (state: IState, action: any) =>
       state.newDraft = action.text,
 
-    [ActionTypes.PushErrorNotification]: (state: IState, action: IPushErrorNotificationAction) =>
+    [ActionTypes.PushErrorNotification]: (state: IState, action: any) =>
       state.notifications.unshift({ message: action.message }),
 
-    [ActionTypes.PushDebugNotification]: (state: IState, action: IPushDebugNotificationAction) => 
+    [ActionTypes.PushDebugNotification]: (state: IState, action: any) => 
       state.notifications.unshift({ message: action.message }),
 
-    [ActionTypes.PushTraceNotification]: (state: IState, action: IPushTraceNotificationAction) =>
+    [ActionTypes.PushTraceNotification]: (state: IState, action: any) =>
       state.notifications.unshift({ message: action.message }),
 
-    [ActionTypes.SetPassphrase]: (state: IState, action: ISetPassphraseAction) =>
+    [ActionTypes.SetPassphrase]: (state: IState, action: any) =>
       state.passphrase = action.passphrase,
 
-    [ActionTypes.ReplaceItems]: (state: IState, action: IReplaceItemsAction) => {
+    [ActionTypes.ReplaceItems]: (state: IState, action: any) => {
       for (const item of action.items) {
         if (!state.cleartexts[item.item.id]) {
           const message = {
@@ -76,7 +59,7 @@ export const agoReducer: Redux.Reducer<IState> = (originalState: IState = {
       state.items = action.items;
     },
 
-    [ActionTypes.ElectPivotItem]: (state: IState, action: IElectPivotItemAction) =>
+    [ActionTypes.ElectPivotItem]: (state: IState, action: any) =>
       state.selectedItemId = action.id,
 
     [ActionTypes.Login]: (state: IState) =>
@@ -87,18 +70,6 @@ export const agoReducer: Redux.Reducer<IState> = (originalState: IState = {
       state.isLoggedIn = false;
       state.cleartexts = {};
     },
-
-    [ActionTypes.CacheDecryptedText]: (state: IState, action: ICacheDecryptedTextAction) =>
-      state.cleartexts[action.id] = action.cleartext,
-
-    [ActionTypes.NavigateToItemListPage]: (state: IState, action: IChangeComposerTextAction) =>
-      state.selectedTab = "Items",
-
-    [ActionTypes.NavigateToTaskListPage]: (state: IState, action: IChangeComposerTextAction) =>
-      state.selectedTab = "Tasks",
-
-    [ActionTypes.NavigateToNotificationListPage]: (state: IState, action: IChangeComposerTextAction) =>
-      state.selectedTab = "Notifications"
 
   };
 

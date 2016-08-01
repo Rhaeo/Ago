@@ -119,6 +119,11 @@ namespace Rhaeo.Ago.Repositories
             Reloaded?.Invoke(this, EventArgs.Empty);
         }
 
+        public void PersistTask()
+        {
+            throw new NotImplementedException();
+        }
+
         public Guid[] GetItemIdsInOrder()
         {
             return state.ItemsInOrder.ToArray();
@@ -158,6 +163,13 @@ namespace Rhaeo.Ago.Repositories
             state.ItemsInOrder[oldIndex] = state.ItemsInOrder[newIndex];
             state.ItemsInOrder[newIndex] = temp;
             Commit();
+        }
+
+        //
+
+        public void CreateNewTask(string text)
+        {
+            throw new NotImplementedException();
         }
     }
 }

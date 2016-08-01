@@ -3,25 +3,25 @@ importScripts("/Scripts/Libraries/crypto-js-rollups-aes@3.1.2.min.js", "/Scripts
 
 self.addEventListener("message",
   event => {
-    const origin = event.origin;
-    // TODO: Check origin for localhost, Azure websites page and Ago.today.
-    // TODO: This is high priority, currently data leaks.
-    switch (event.data.type) {
-      case "encrypt":
+    const message = event.data as IMessage;
+    switch (message.type) {
+      case MessageTypes.EncryptionRequest:
         {
-          self.postMessage(event.data.message.startMessage);
-          self.postMessage(Object.assign(event.data.message.endMessage, encrypt(event.data.message.cleartext, event.data.message.passphrase)));
+          const message2 = message as IEncryptionRequestMessage;
+          const encryption = encrypt(message2.cleartext, message2.passphrase);
+          self.postMessage(Object.assign({ type: MessageTypes.EncryptionResponse, id: message.id }, encryption));
           break;
         }
-      case "decrypt":
+      case MessageTypes.DecryptionRequest:
         {
-          self.postMessage(event.data.message.startMessage);
-          self.postMessage(Object.assign(event.data.message.endMessage, decrypt(event.data.message.cyphertext, event.data.message.passphrase, event.data.message.salt, event.data.message.iv)));
+          const message2 = message as IDecryptionRequestMessage;
+          const decryption = decrypt(message2.cyphertext, message2.passphrase, message2.salt, message2.iv);
+          self.postMessage(Object.assign({ type: MessageTypes.DecryptionResponse, id: message.id }, decryption));
           break;
         }
       default:
         {
-          throw new Error(`Yo ${event.data.type}`);
+          throw new Error(`Unknown crypto worker message type: ${message.type}`);
         }
     }
   });
@@ -31,20 +31,19 @@ const iterations = 100;
 // ReSharper disable once InconsistentNaming
 declare const CryptoJS: any;
 
-const encrypt = (cleartext: string, passphrase: string) => {
+function encrypt(cleartext: string, passphrase: string): IEncryption {
   const salt = CryptoJS.lib.WordArray.random(128 / 8);
   const key = CryptoJS.PBKDF2(passphrase, salt, { keySize: 512 / 32, iterations });
   const iv = CryptoJS.lib.WordArray.random(128 / 8);
-  const crypto = CryptoJS.AES.encrypt(cleartext,
-    key,
-    { iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+  const options = { iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 };
+  const crypto = CryptoJS.AES.encrypt(cleartext, key, options);
   return { cyphertext: crypto.toString(), salt: salt.toString(), iv: iv.toString() };
 };
 
-const decrypt = (cyphertext: string, passphrase: string, salt: string, iv: string) => {
+function decrypt(cyphertext: string, passphrase: string, salt: string, iv: string): IDecryption {
   const key = CryptoJS.PBKDF2(passphrase, CryptoJS.enc.Hex.parse(salt), { keySize: 512 / 32, iterations });
-  const crypto = CryptoJS.AES.decrypt(cyphertext,
-    key,
-    { iv: CryptoJS.enc.Hex.parse(iv), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+  const iv2 = CryptoJS.enc.Hex.parse(iv);
+  const options = { iv: iv2, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 };
+  const crypto = CryptoJS.AES.decrypt(cyphertext, key, options);
   return { cleartext: crypto.toString(CryptoJS.enc.Utf8) };
 };

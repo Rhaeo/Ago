@@ -14,5 +14,8 @@ namespace Rhaeo.Ago.Repositories
         void SwapItemsByIds(Guid id1, Guid id2);
         void Reload();
         void PersistTask();
+
+        // Tasks:
+        void CreateNewTask(string text);
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 using Rhaeo.Ago.Models;
@@ -18,13 +17,13 @@ namespace Rhaeo.Ago.Hubs
         private static readonly ConcurrentDictionary<string, string> ConnectionIdToUserName =
             new ConcurrentDictionary<string, string>();
 
-        private readonly IRepository Repository = new BinarySerializedRepository();
+        private readonly IRepository _repository = new BinarySerializedRepository();
 
         // Constructors:
 
         public AgoHub()
         {
-            Repository.Reloaded += Repository_Reloaded;
+            _repository.Reloaded += Repository_Reloaded;
         }
 
         private void Repository_Reloaded(object sender, EventArgs e)
@@ -37,8 +36,8 @@ namespace Rhaeo.Ago.Hubs
 
         protected override void Dispose(bool disposing)
         {
-            Repository.Reloaded -= Repository_Reloaded;
-            Repository.Dispose();
+            _repository.Reloaded -= Repository_Reloaded;
+            _repository.Dispose();
             base.Dispose(disposing);
         }
 
@@ -85,65 +84,65 @@ namespace Rhaeo.Ago.Hubs
 
         private void Sync()
         {
-            var itemsInOrder = Repository.GetItemIdsInOrder();
-            if (!itemsInOrder.Any())
-            {
-                Clients.Caller.sync(new object[] { });
-                return;
-            }
+            //var itemsInOrder = Repository.GetItemIdsInOrder();
+            //if (!itemsInOrder.Any())
+            //{
+            //    Clients.Caller.sync(new object[] { });
+            //    return;
+            //}
 
-            lock (Repository)
-            {
-                Clients.Caller.sync(itemsInOrder.Select((id, index) => new Link()
-                {
-                    PrevId = itemsInOrder[index == 0 ? itemsInOrder.Length - 1 : index - 1],
-                    NextId = itemsInOrder[index == itemsInOrder.Length - 1 ? 0 : index + 1],
-                    Item = Repository.GetItemById(id)
-                }));
-            }
+            //lock (Repository)
+            //{
+            //    Clients.Caller.sync(itemsInOrder.Select((id, index) => new Link()
+            //    {
+            //        PrevId = itemsInOrder[index == 0 ? itemsInOrder.Length - 1 : index - 1],
+            //        NextId = itemsInOrder[index == itemsInOrder.Length - 1 ? 0 : index + 1],
+            //        Item = Repository.GetItemById(id)
+            //    }));
+            //}
         }
 
         // Actions:
 
-        public void PersistTask(TaskEditModel task) => Repository.PersistTask();
+        // ReSharper disable once UnusedMember.Global
+        public void PersistTask(TaskEditModel task) => _repository.PersistTask();
 
 
 
+        // ReSharper disable once UnusedMember.Global
         public void RequestSync()
         {
             Sync();
         }
 
-        public double Ping(double payload)
-        {
-            Clients.Caller.pong(payload);
-            return payload;
-        }
-
+        // ReSharper disable once UnusedMember.Global
         public void CreateNewTask(string cyphertext, string salt, string iv)
         {
             var id = Guid.NewGuid();
-            Repository.AddItem(id, cyphertext, salt, iv);
+            _repository.AddItem(id, cyphertext, salt, iv);
             Sync();
         }
 
+        // ReSharper disable once UnusedMember.Global
         public void MarkTask(Guid id)
         {
-            Repository.MarkItem(id);
+            _repository.MarkItem(id);
             Sync();
         }
 
+        // ReSharper disable once UnusedMember.Global
         public void RemoveTask(Guid id)
         {
-            Repository.RemoveItem(id);
+            _repository.RemoveItem(id);
             Sync();
         }
 
+        // ReSharper disable once UnusedMember.Global
         public void SwapTasks(Guid id1, Guid id2)
         {
-            lock (Repository)
+            lock (_repository)
             {
-                Repository.SwapItemsByIds(id1, id2);
+                _repository.SwapItemsByIds(id1, id2);
             }
 
             Sync();

@@ -1,30 +1,37 @@
-define(["require", "exports", "./Messages/SignalR", "./Ago"], function (require, exports, SignalR_1, Ago_1) {
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments)).next());
+    });
+};
+define(["require", "exports", "./Messages/SignalR", "./Ago", "./Helpers/AsyncCrypto"], function (require, exports, SignalR_1, Ago_1, AsyncCrypto_1) {
     "use strict";
-    exports.changeComposerText = function (text) {
+    exports.changeComposerText = (text) => {
         Ago_1.store.dispatch({
-            type: 1 /* ChangeComposerText */,
+            type: 0 /* ChangeComposerText */,
             text: text
         });
     };
-    // createNewTask
-    exports.createNewTask = function (text, passphrase) {
-        var message = {
+    exports.createNewTask = (text, passphrase) => {
+        const message = {
             cleartext: text,
             passphrase: passphrase,
             startMessage: { type: "CreateNewTaskEncryptStart" },
             endMessage: { type: "CreateNewTaskEncryptEnd" }
         };
-        Ago_1.worker.postMessage({ type: "encrypt", message: message });
+        //worker.postMessage({ type: "encrypt", message });
         // TODO: Await worker.
-        var cyphertext = "";
-        var salt = "";
-        var iv = "";
+        const cyphertext = "";
+        const salt = "";
+        const iv = "";
         SignalR_1.$.connection.agoHub.server.createNewTask(cyphertext, salt, iv);
         Ago_1.store.dispatch({ type: exports.changeComposerText, text: "" });
     };
-    exports.pushErrorNotification = function (message, filename, lineno, colno, error) {
+    exports.pushErrorNotification = (message, filename, lineno, colno, error) => {
         Ago_1.store.dispatch({
-            type: 3 /* PushErrorNotification */,
+            type: 1 /* PushErrorNotification */,
             message: message,
             filename: filename,
             lineno: lineno,
@@ -32,170 +39,135 @@ define(["require", "exports", "./Messages/SignalR", "./Ago"], function (require,
             error: error
         });
     };
-    exports.pushTraceNotification = function (message) {
+    exports.pushTraceNotification = (message) => {
         Ago_1.store.dispatch({
-            type: 4 /* PushTraceNotification */,
+            type: 2 /* PushTraceNotification */,
             message: message
         });
     };
-    exports.pushDebugNotification = function (message) {
+    exports.pushDebugNotification = (message) => {
         Ago_1.store.dispatch({
-            type: 5 /* PushDebugNotification */,
+            type: 3 /* PushDebugNotification */,
             message: message
         });
     };
-    exports.setPassphrase = function (passphrase) {
+    exports.setPassphrase = (passphrase) => {
         Ago_1.store.dispatch({
-            type: 6 /* SetPassphrase */,
+            type: 4 /* SetPassphrase */,
             passphrase: passphrase
         });
     };
-    exports.replaceItems = function (items) {
+    exports.replaceItems = (items) => {
         Ago_1.store.dispatch({
-            type: 7 /* ReplaceItems */,
+            type: 5 /* ReplaceItems */,
             items: items
         });
     };
-    // markItemById
-    exports.markItemById = function (id) {
+    exports.markItemById = (id) => {
         // TODO: Dispatch working…
         // TODO: Async/await.
         SignalR_1.$.connection.agoHub.server.markTask(id);
         // TODO: Dispatch finished.
     };
-    // removeItemById
-    exports.removeItemById = function (id) {
+    exports.removeItemById = (id) => {
         // TODO: Dispatch working and success/failure and call using async/await wrapped in a promise.
         SignalR_1.$.connection.agoHub.server.removeTask(id);
     };
-    // swapItemsByIds
-    exports.swapItemsByIds = function (id1, id2) {
+    exports.swapItemsByIds = (id1, id2) => {
         // TODO: Dispatch working and success/failure and call using async/await wrapped in a promise.
         SignalR_1.$.connection.agoHub.server.swapTasks(id1, id2);
     };
-    exports.electPivotItem = function (id) {
+    exports.electPivotItem = (id) => {
         Ago_1.store.dispatch({
-            type: 11 /* ElectPivotItem */,
+            type: 6 /* ElectPivotItem */,
             id: id
         });
     };
-    exports.moveAbove = function (id, counterId) {
+    exports.moveAbove = (id, counterId) => {
         Ago_1.store.dispatch({
-            type: 12 /* MoveAbove */,
+            type: 7 /* MoveAbove */,
             id: id,
             counterId: counterId
         });
     };
-    exports.moveBelow = function (id, counterId) {
+    exports.moveBelow = (id, counterId) => {
         Ago_1.store.dispatch({
-            type: 13 /* MoveBelow */,
+            type: 8 /* MoveBelow */,
             id: id,
             counterId: counterId
         });
     };
-    exports.updateAboveDraft = function (id, draft) {
+    exports.updateAboveDraft = (id, draft) => {
         Ago_1.store.dispatch({
-            type: 14 /* UpdateAboveDraft */,
+            type: 9 /* UpdateAboveDraft */,
             id: id,
             draft: draft
         });
     };
-    exports.updateBelowDraft = function (id, draft) {
+    exports.updateBelowDraft = (id, draft) => {
         Ago_1.store.dispatch({
-            type: 15 /* UpdateBelowDraft */,
+            type: 10 /* UpdateBelowDraft */,
             id: id,
             draft: draft
         });
     };
-    exports.commitAboveDraft = function (id) {
+    exports.commitAboveDraft = (id) => {
         Ago_1.store.dispatch({
-            type: 16 /* CommitAboveDraft */,
+            type: 11 /* CommitAboveDraft */,
             id: id
         });
     };
-    exports.commitBelowDraft = function (id) {
+    exports.commitBelowDraft = (id) => {
         Ago_1.store.dispatch({
-            type: 17 /* CommitBelowDraft */,
+            type: 12 /* CommitBelowDraft */,
             id: id
         });
     };
-    exports.updateItemById = function (id) {
+    exports.updateItemById = (id) => {
         Ago_1.store.dispatch({
-            type: 18 /* UpdateItemById */,
+            type: 13 /* UpdateItemById */,
             id: id
         });
     };
-    exports.updateNewDraft = function (draft) {
+    exports.updateNewDraft = (draft) => {
         Ago_1.store.dispatch({
-            type: 19 /* UpdateNewDraft */,
+            type: 14 /* UpdateNewDraft */,
             draft: draft
         });
     };
-    exports.commitNewDraft = function () {
-        Ago_1.store.dispatch({
-            type: 20 /* CommitNewDraft */
-        });
+    exports.commitNewDraft = () => {
+        //store.dispatch({
+        //  type: ActionTypes.CommitNewDraft
+        //} as ICommitNewDraftAction);
     };
-    exports.login = function () {
+    exports.login = () => {
         // TODO: Async and all that.
         // TODO: When registering, generate a check word on client and encrypt it, save it with the user data, then verify here.
         SignalR_1.$.connection.agoHub.server.requestSync();
-        Ago_1.store.dispatch({ type: 21 /* Login */ });
+        Ago_1.store.dispatch({ type: 16 /* Login */ });
     };
-    exports.logout = function () {
-        Ago_1.store.dispatch({ type: 22 /* Logout */ });
+    exports.logout = () => {
+        Ago_1.store.dispatch({ type: 17 /* Logout */ });
     };
-    exports.processMessage = function (data) {
-        Ago_1.store.dispatch({
-            type: 23 /* ProcessMessage */,
-            data: data
-        });
+    const route = (route) => {
+        history.pushState(null, null, route);
+        Ago_1.store.dispatch({ type: 18 /* Route */ });
     };
-    exports.requestEncryption = function (cleartext, passphrase) {
-        Ago_1.store.dispatch({
-            type: 25 /* RequestEncryption */,
-            cleartext: cleartext,
-            passphrase: passphrase
-        });
+    exports.navigateToItemListPage = () => {
+        route("/items");
     };
-    exports.requestDecryption = function (cyphertext, passphrase, salt, iv) {
-        Ago_1.store.dispatch({
-            type: 24 /* RequestDecryption */,
-            cyphertext: cyphertext,
-            passphrase: passphrase,
-            salt: salt,
-            iv: iv
-        });
+    exports.navigateToTaskListPage = () => {
+        route("/tasks");
     };
-    exports.saveEncryptedItem = function (cyphertext, salt, iv) {
-        Ago_1.store.dispatch({
-            type: 26 /* SaveEncryptedItem */,
-            cyphertext: cyphertext,
-            salt: salt,
-            iv: iv
-        });
+    exports.navigateToNotificationListPage = () => {
+        route("/notifications");
     };
-    exports.cacheDecryptedText = function (id, cleartext) {
-        Ago_1.store.dispatch({
-            type: 27 /* CacheDecryptedText */,
-            id: id,
-            cleartext: cleartext
-        });
-    };
-    exports.navigateToItemListPage = function () {
-        Ago_1.store.dispatch({
-            type: 28 /* NavigateToItemListPage */
-        });
-    };
-    exports.navigateToTaskListPage = function () {
-        Ago_1.store.dispatch({
-            type: 29 /* NavigateToTaskListPage */
-        });
-    };
-    exports.navigateToNotificationListPage = function () {
-        Ago_1.store.dispatch({
-            type: 30 /* NavigateToNotificationListPage */
-        });
-    };
+    exports.navigateToBudgetListPage = () => __awaiter(this, void 0, void 0, function* () {
+        route("/budgets");
+        const encryption = yield AsyncCrypto_1.AsyncCrypto.encrypt("test", "yoyoyo");
+        console.debug("encryption", encryption);
+        const decryption = yield AsyncCrypto_1.AsyncCrypto.decrypt(encryption.cyphertext, "yoyoyo", encryption.salt, encryption.iv);
+        console.debug("decryption", decryption);
+    });
 });
 //# sourceMappingURL=ActionCreators.js.map

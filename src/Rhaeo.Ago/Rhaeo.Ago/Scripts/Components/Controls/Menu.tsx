@@ -29,7 +29,8 @@ const handleImportFileChange = (event: React.FormEvent) => {
 import {
   navigateToItemListPage,
   navigateToTaskListPage,
-  navigateToNotificationListPage
+  navigateToNotificationListPage,
+  navigateToBudgetListPage
 } from "./../../ActionCreators";
 
 // ReSharper disable once InconsistentNaming
@@ -44,4 +45,5 @@ export const Menu = (props: IMenuProps) => (
     <button onClick={event => navigateToItemListPage() }>Items ({props.itemCount})</button>
     <button onClick={event => navigateToTaskListPage() }>Tasks ({props.taskCount})</button>
     <button onClick={event => navigateToNotificationListPage() }>Notificatons ({props.notificationCount})</button>
+    <button onClick={event => navigateToBudgetListPage() }>Budgets</button>
   </div>);

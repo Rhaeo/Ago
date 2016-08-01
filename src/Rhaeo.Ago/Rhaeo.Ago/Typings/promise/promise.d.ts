@@ -72,6 +72,8 @@ declare namespace Promise {
 	 * Make a Promise that fulfills when any item fulfills, and rejects if any item rejects.
 	 */
     function race<T>(promises: (T | Thenable<T>)[]): Promise<T>;
+
+    function defer(): { resolve: (payload: any) => void; reject: (reason: any) => void };
 }
 
 declare module 'es6-promise' {

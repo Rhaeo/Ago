@@ -9,6 +9,6 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 define(["require", "exports", "react", "./Pages/LoginPage", "./Pages/IndexPage"], function (require, exports, React, LoginPage_1, IndexPage_1) {
     "use strict";
     // ReSharper disable once InconsistentNaming
-    exports.Ago = function (props) { return props.isLoggedIn ? React.createElement(IndexPage_1.IndexPage, __assign({}, props)) : React.createElement(LoginPage_1.LoginPage, null); };
+    exports.Ago = (props) => props.isLoggedIn ? React.createElement(IndexPage_1.IndexPage, __assign({}, props)) : React.createElement(LoginPage_1.LoginPage, null);
 });
 //# sourceMappingURL=Ago.js.map

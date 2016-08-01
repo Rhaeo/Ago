@@ -290,6 +290,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\ActionCreators.ts" />
+    <TypeScriptCompile Include="Scripts\ActionTypes.ts" />
     <TypeScriptCompile Include="Scripts\Ago.ts" />
     <TypeScriptCompile Include="Scripts\Components\Ago.tsx" />
     <TypeScriptCompile Include="Scripts\Components\Controls\Composer.tsx" />
@@ -298,15 +299,30 @@
     <TypeScriptCompile Include="Scripts\Components\Controls\Note.tsx" />
     <TypeScriptCompile Include="Scripts\Components\Controls\NoteDraft.tsx" />
     <TypeScriptCompile Include="Scripts\Components\Controls\NoteList.tsx" />
+    <TypeScriptCompile Include="Scripts\Components\Pages\BudgetListPage.tsx" />
     <TypeScriptCompile Include="Scripts\Components\Pages\IndexPage.tsx" />
     <TypeScriptCompile Include="Scripts\Components\Pages\LoginPage.tsx" />
+    <TypeScriptCompile Include="Scripts\Components\Pages\TaskListPage.tsx" />
+    <TypeScriptCompile Include="Scripts\Enums\MessageTypes.ts" />
+    <TypeScriptCompile Include="Scripts\Helpers\AsyncCrypto.ts" />
     <TypeScriptCompile Include="Scripts\Messages\SignalR.ts" />
+    <TypeScriptCompile Include="Scripts\Models\IDecryptionRequest.ts" />
+    <TypeScriptCompile Include="Scripts\Models\IDecryptionRequestMessage.ts" />
+    <TypeScriptCompile Include="Scripts\Models\IDecryptionResponse.ts" />
+    <TypeScriptCompile Include="Scripts\Models\IDecryptionReponseMessage.ts" />
+    <TypeScriptCompile Include="Scripts\Models\IDeferred.ts" />
+    <TypeScriptCompile Include="Scripts\Models\IEncryptionRequest.ts" />
+    <TypeScriptCompile Include="Scripts\Models\IEncryptionRequestMessage.ts" />
+    <TypeScriptCompile Include="Scripts\Models\IEncryptionResponse.ts" />
+    <TypeScriptCompile Include="Scripts\Models\IEncryptionReponseMessage.ts" />
     <TypeScriptCompile Include="Scripts\Models\IItem.ts" />
     <TypeScriptCompile Include="Scripts\Models\ILink.ts" />
     <TypeScriptCompile Include="Scripts\Models\INotification.ts" />
+    <TypeScriptCompile Include="Scripts\Models\IMessage.ts" />
     <TypeScriptCompile Include="Scripts\Models\IState.ts" />
     <TypeScriptCompile Include="Scripts\Polyfills\Array.ts" />
     <TypeScriptCompile Include="Scripts\Polyfills\Object.ts" />
+    <TypeScriptCompile Include="Scripts\Polyfills\Promise.ts" />
     <TypeScriptCompile Include="Scripts\Polyfills\Window.ts" />
     <TypeScriptCompile Include="Scripts\AgoReducer.ts" />
     <TypeScriptCompile Include="Scripts\Workers\AgoWorker.ts" />
