@@ -19,43 +19,53 @@ export const enum ActionTypes {
   CommitNewDraft,
   Login,
   Logout,
-  Route
+  Route,
+  UpdateTransportInfo
 }
 
-interface IAction extends Redux.Action {
-  type: ActionTypes;
+export interface IAction extends Redux.Action {
+  type: ActionTypes | "@@redux/INIT";
 }
 
 export interface IRouteAction extends IAction {
   route: string;
 }
 
-export interface IRequestDecryptionAction extends Redux.Action {
+export interface ISetPassphraseAction extends IAction {
+  passphrase: string;
+}
+
+export interface IPushErrorNotificationAction extends IAction {
+  message: string;
+}
+
+export interface IPushTraceNotificationAction extends IAction {
+  message: string;
+}
+
+export interface IPushDebugNotificationAction extends IAction {
+  message: string;
+}
+
+export interface IRequestDecryptionAction extends IAction {
   cyphertext: string;
   passphrase: string;
   salt: string;
   iv: string;
 }
 
-export interface ISaveEncryptedItemAction extends Redux.Action {
+export interface ISaveEncryptedItemAction extends IAction {
   cyphertext: string;
   salt: string;
   iv: string;
 }
 
-export interface ICacheDecryptedTextAction extends Redux.Action {
+export interface ICacheDecryptedTextAction extends IAction {
   id: string;
   cleartext: string;
 }
 
-export interface INavigateToItemListPageAction {
-  type: ActionTypes;
-}
-
-export interface INavigateToTaskListPageAction {
-  type: ActionTypes;
-}
-
-export interface INavigateToNotificationListPageAction {
-  type: ActionTypes;
+export interface IUpdateTransportInfoAction extends IAction {
+  name: string;
+  state: string;
 }

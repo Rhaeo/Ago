@@ -1,86 +1,77 @@
 ﻿import * as Redux from "redux";
 import { IState } from "./Models/IState";
-import { store } from "./Ago";
-import { ActionTypes } from "./ActionTypes";
+import {
+  ActionTypes,
+  IAction,
+  ISetPassphraseAction,
+  IPushErrorNotificationAction,
+  IPushTraceNotificationAction,
+  IPushDebugNotificationAction,
+  IUpdateTransportInfoAction
+} from "./ActionTypes";
 
-export const agoReducer: Redux.Reducer<IState> = (originalState: IState = {
-  passphrase: "",
-  items: [],
+const initialState: IState = {
   notifications: [],
-  newDraft: "",
-  aboveDrafts: {},
-  belowDrafts: {},
-  cleartexts: {},
-  selectedItemId: null,
-  isLoggedIn: false,
-  selectedTab: "Tasks"
-}, originalAction: Redux.Action) => {
-  console.debug("state", originalState);
-  console.debug("action", originalAction);
+  selectedTab: "Notifications"
+};
 
-  const branches = {
-    ["@@redux/INIT"]: (state, action) => state,
+export const agoReducer: Redux.Reducer<IState> = (oldState: IState = initialState, oldAction: IAction) => {
+  // TODO: ImmutableJS instead of cloning.
+  const newState: IState = Object.assign({}, oldState);
 
-    [ActionTypes.ChangeComposerText]: (state: IState, action: any) =>
-      state.newDraft = action.text,
-
-    [ActionTypes.PushErrorNotification]: (state: IState, action: any) =>
-      state.notifications.unshift({ message: action.message }),
-
-    [ActionTypes.PushDebugNotification]: (state: IState, action: any) => 
-      state.notifications.unshift({ message: action.message }),
-
-    [ActionTypes.PushTraceNotification]: (state: IState, action: any) =>
-      state.notifications.unshift({ message: action.message }),
-
-    [ActionTypes.SetPassphrase]: (state: IState, action: any) =>
-      state.passphrase = action.passphrase,
-
-    [ActionTypes.ReplaceItems]: (state: IState, action: any) => {
-      for (const item of action.items) {
-        if (!state.cleartexts[item.item.id]) {
-          const message = {
-            cyphertext: item.item.cyphertext,
-            passphrase: state.passphrase,
-            salt: item.item.salt,
-            iv: item.item.iV,
-            startMessage: { type: "ReplaceItemDecryptStart", id: item.item.id },
-            endMessage: { type: "ReplaceItemDecryptEnd", id: item.item.id }
-          };
-
-          // TODO: Move logic to action creator.
-          //worker.postMessage({
-          //  type: "decrypt",
-          //  message
-          //});
-        }
+  switch (oldAction.type) {
+    case "@@redux/INIT":
+      {
+        // TODO: Redux DevTools set up and their init handler.
+        return newState;
       }
-
-      state.items = action.items;
-    },
-
-    [ActionTypes.ElectPivotItem]: (state: IState, action: any) =>
-      state.selectedItemId = action.id,
-
-    [ActionTypes.Login]: (state: IState) =>
-      state.isLoggedIn = true,
-
-    [ActionTypes.Logout]: (state: IState) => {
-      state.passphrase = null;
-      state.isLoggedIn = false;
-      state.cleartexts = {};
-    },
-
-  };
-
-  if (branches[originalAction.type]) {
-    // TODO: No depp clone, instead ImmutableJS.
-    const state: IState = Object.assign({}, originalState);
-    branches[originalAction.type](state, originalAction);
-    return state;
+    case ActionTypes.Login:
+      {
+        newState.isLoggedIn = true;
+        return newState;
+      }
+    case ActionTypes.Logout:
+      {
+        newState.isLoggedIn = false;
+        delete newState.passphrase;
+        delete newState.cleartexts;
+        return newState;
+      }
+    case ActionTypes.SetPassphrase:
+      {
+        const newAction = oldAction as ISetPassphraseAction;
+        newState.isLoggedIn = true;
+        return newState;
+      }
+    case ActionTypes.PushErrorNotification:
+      {
+        const newAction = oldAction as IPushErrorNotificationAction;
+        newState.notifications.unshift({ message: newAction.message });
+        return newState;
+      }
+    case ActionTypes.PushTraceNotification:
+      {
+        const newAction = oldAction as IPushTraceNotificationAction;
+        newState.notifications.unshift({ message: newAction.message });
+        return newState;
+      }
+    case ActionTypes.PushDebugNotification:
+      {
+        const newAction = oldAction as IPushDebugNotificationAction;
+        newState.notifications.unshift({ message: newAction.message });
+        return newState;
+      }
+    case ActionTypes.UpdateTransportInfo:
+      {
+        const newAction = oldAction as IUpdateTransportInfoAction;
+        newState.transportName = newAction.name;
+        newState.transportState = newAction.state;
+        return newState;
+      }
+    default:
+      {
+        newState.notifications.unshift({ message: `Unknown action type ${oldAction.type}!` });
+        return newState;
+      }
   }
-
-  const state: IState = Object.assign({}, originalState);
-  state.notifications.unshift({ message: `Unknown action ${originalAction.type}.` });
-  return state;
 };

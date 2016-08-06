@@ -5,6 +5,8 @@ export interface IMenuProps {
   itemCount: number;
   taskCount: number;
   notificationCount: number;
+  transportName: string;
+  transportState: string;
 }
 
 const menuItemStyle = {
@@ -46,4 +48,8 @@ export const Menu = (props: IMenuProps) => (
     <button onClick={event => navigateToTaskListPage() }>Tasks ({props.taskCount})</button>
     <button onClick={event => navigateToNotificationListPage() }>Notificatons ({props.notificationCount})</button>
     <button onClick={event => navigateToBudgetListPage() }>Budgets</button>
+    <div style={{ flex: 1 }}>
+      <span>{props.transportName}</span>
+      <span>{props.transportState}</span>
+    </div>
   </div>);

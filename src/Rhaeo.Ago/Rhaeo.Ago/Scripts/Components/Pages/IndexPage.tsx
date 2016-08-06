@@ -54,7 +54,9 @@ export const IndexPage = (props: IIndexPageProps) => (
     <Menu
       itemCount={props.items && props.items.length}
       taskCount={0}
-      notificationCount={props.notifications && props.notifications.length} />
+      notificationCount={props.notifications && props.notifications.length}
+      transportName={props.transportName}
+      transportState={props.transportState}/>
     <Composer text={props.newDraft} passphrase={props.passphrase} />
     <div style={{ maxWidth: 800, margin: "0 auto" }}>{getSelectedTab(props) }</div>
     <Navigation />
